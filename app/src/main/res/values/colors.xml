@@ -3,4 +3,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparentColor">#00FFFFFF</color>
     <color name="green">#179900</color>
+    <color name="red">#C62E2E</color>
+
 </resources>

@@ -21,6 +21,7 @@ data class BookedResponse(
     val end_date: String,
     val user_email: String,
     val unitImages: String? = null,
-    val payment_status: String? = null,
+    var payment_status: String? = null,
 )
+
 
