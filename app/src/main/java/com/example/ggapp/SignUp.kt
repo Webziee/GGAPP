@@ -32,6 +32,7 @@ class SignUp : AppCompatActivity() {
     private lateinit var signuppassword: TextInputEditText
     private lateinit var signupconfirmpassword: TextInputEditText
     private lateinit var signup_buttom: Button
+    private lateinit var redirectToSignInBtn: Button // NEW: Button to redirect to sign in
 
     private lateinit var progressBar: ProgressBar
     private lateinit var googleSignInButton: com.google.android.gms.common.SignInButton
@@ -48,6 +49,12 @@ class SignUp : AppCompatActivity() {
 
         // Initialize Firebase Authentication
         auth = FirebaseAuth.getInstance()
+
+        // Check if user is already signed in
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            navigateToMainPage() // User is already signed in, navigate to the main page
+        }
 
         // Initialize UI
         initializeViews()
@@ -74,6 +81,9 @@ class SignUp : AppCompatActivity() {
         signin_button.setOnClickListener { signInUser() }
         googleSignInButton.setOnClickListener { signInWithGoogle() }
 
+        // NEW: Redirect button listener
+        redirectToSignInBtn.setOnClickListener { switchToSignIn() } // Switch back to sign-in page
+
         // Handle switching between Log In and Sign Up layouts
         signuptext.setOnClickListener { switchToSignUp() }
         signintext.setOnClickListener { switchToSignIn() }
@@ -92,6 +102,7 @@ class SignUp : AppCompatActivity() {
         signuppassword = findViewById(R.id.signUpPassword)
         signupconfirmpassword = findViewById(R.id.signUpConfirmPassword)
         signup_buttom = findViewById(R.id.signUpBtn)
+        redirectToSignInBtn = findViewById(R.id.redirectToSignInBtn) // Initialize the new button
 
         googleSignInButton = findViewById(R.id.googleSignInButton)
         progressBar = findViewById(R.id.progressbar)

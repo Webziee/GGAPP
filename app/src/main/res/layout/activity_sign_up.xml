@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_gravity="top"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="-30dp"
             android:src="@drawable/logo" />
 
         <!-- LogInLayout and SignUpLayout -->
@@ -234,6 +234,17 @@
             android:text="@string/sign_up"
             android:textSize="17sp" />
 
+        <Button
+            android:id="@+id/redirectToSignInBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account? Sign in"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/white"
+            android:background="@null" />
+
+
         <!--        <TextView-->
         <!--            android:id="@+id/sign_up_with_text"-->
         <!--            android:layout_width="match_parent"-->
@@ -286,7 +297,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/googleborder"
             android:gravity="center"
             android:orientation="horizontal"
@@ -317,7 +328,7 @@
             android:layout_width="290dp"
             android:layout_height="64dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="-70dp"
             android:gravity="center"
             android:orientation="horizontal"
@@ -328,11 +339,11 @@
                 android:id="@+id/SignIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="textEnd"
                 android:layout_marginLeft="20dp"
                 android:text="@string/dont_have_an_accont"
-                android:textSize="13sp"
-                android:textColor="@color/white"/>
+                android:textAlignment="textEnd"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/signInText"
@@ -344,7 +355,7 @@
                 android:textColor="@color/white"
                 android:textSize="13sp"
                 android:textStyle="bold"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/signUpText"
@@ -355,8 +366,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="13sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
