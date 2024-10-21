@@ -8,52 +8,57 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.example.ggapp.databinding.ActivityMainBinding
+import com.example.ggapp.BookedPage
+import com.example.ggapp.ProfilePage
 import com.example.goergesgraceapp.ExplorePage
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private  lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityMainBinding.inflate(layoutInflater)
+        // Inflate the binding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        // Set the content view using the binding root
+        setContentView(binding.root)
+
+        // Enable edge-to-edge after setting content view
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
 
-
+        // Set initial fragment
         replaceFragment(ExplorePage())
-        binding.bottomNavigationView.setOnItemSelectedListener{
-            when(it.itemId){
+
+        // Set the listener for bottom navigation
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
                 R.id.explore -> replaceFragment(ExplorePage())
                 R.id.booked -> replaceFragment(BookedPage())
                 R.id.profile -> replaceFragment(ProfilePage())
-
-                else -> {
-
-                }
+                else -> false
             }
             true
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        // Apply window insets to adjust layout for system bars
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Set padding to the main layout to avoid clipping under the system bars
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-
-            // Apply padding to the BottomNavigationView to cover the navigation bar
-            val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-            bottomNavigationView.updatePadding(bottom = systemBars.bottom)
-
+            view.updatePadding(
+                left = systemBars.left,
+                top = systemBars.top,
+                right = systemBars.right,
+                bottom = systemBars.bottom
+            )
             insets
         }
     }
 
-    private fun replaceFragment(fragment : Fragment){
+    // Function to replace fragments
+    private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout,fragment)
+        fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
 }
