@@ -21,10 +21,11 @@ class BookedCardAdapter(
         val unitPrice: TextView = itemView.findViewById(R.id.UnitPrice)
         val unitSleepers: TextView = itemView.findViewById(R.id.UnitSleepers)
         val unitAvailability: TextView = itemView.findViewById(R.id.UnitAvailability)
+        val date: TextView = itemView.findViewById(R.id.date)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookedViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.booking_cards, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.booked_cards, parent, false)
         return BookedViewHolder(view)
     }
 
@@ -39,9 +40,10 @@ class BookedCardAdapter(
         }
 
         holder.unitNumber.text = "Unit ${currentItem.unit_number}"
-        holder.unitPrice.text = "R2500 per night" // Adjust price if needed
-        holder.unitSleepers.text = "6 Sleepers" // Adjust sleepers if needed
+        holder.unitPrice.text = "R2500 per night"
+        holder.unitSleepers.text = "6 Sleepers"
         holder.unitAvailability.text = "Paid"
+        holder.date.text = "${currentItem.start_date} - ${currentItem.end_date}"
 
         // Handle click event
         holder.itemView.setOnClickListener {
