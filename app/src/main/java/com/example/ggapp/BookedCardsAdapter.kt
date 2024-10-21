@@ -18,7 +18,7 @@ class BookedCardAdapter(
     inner class BookedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val unitImage: ImageView = itemView.findViewById(R.id.UnitImage)
         val unitNumber: TextView = itemView.findViewById(R.id.UnitNumber)
-        val unitPrice: TextView = itemView.findViewById(R.id.UnitPrice)
+
         val unitSleepers: TextView = itemView.findViewById(R.id.UnitSleepers)
         val unitAvailability: TextView = itemView.findViewById(R.id.UnitAvailability)
         val date: TextView = itemView.findViewById(R.id.date)
@@ -40,10 +40,14 @@ class BookedCardAdapter(
         }
 
         holder.unitNumber.text = "Unit ${currentItem.unit_number}"
-        holder.unitPrice.text = "R2500 per night"
+        
         holder.unitSleepers.text = "6 Sleepers"
         holder.unitAvailability.text = "Paid"
-        holder.date.text = "${currentItem.start_date} - ${currentItem.end_date}"
+        if (currentItem.start_date != null && currentItem.end_date != null) {
+            holder.date.text = "${currentItem.start_date} - ${currentItem.end_date}"
+        } else {
+            holder.date.text = "Dates not available"
+        }
 
         // Handle click event
         holder.itemView.setOnClickListener {
