@@ -8,10 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.example.ggapp.databinding.ActivityMainBinding
-import com.example.ggapp.BookedPage
-import com.example.ggapp.ProfilePage
 import com.example.goergesgraceapp.ExplorePage
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
