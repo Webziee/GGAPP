@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="Explore" android:id="@+id/explore" android:icon="@drawable/explore_nav_icon"/>
+    <item android:title="Booked" android:id="@+id/booked" android:icon="@drawable/booked_nav_icon"/>
+    <item android:title="Profile" android:id="@+id/profile" android:icon="@drawable/profile_nav_icon"/>
+</menu>

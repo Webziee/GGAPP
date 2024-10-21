@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="loginbutton">
+        <item name="android:background">@drawable/loginbutton</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="CustomgoogleInButton">
+        <item name="android:background">@drawable/googleborder</item> <!-- Custom background -->
+        <item name="android:padding">1dp</item> <!-- Adjust padding as needed -->
+        <item name="android:textColor">#FFFFFF</item> <!-- Text color -->
+        <item name="android:textSize">16sp</item> <!-- Text size -->
+    </style>
+
+
+    <!-- Date Text Appearance Style -->
+    <style name="CalendarDateText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">#FFFFFF</item> <!-- White text color -->
+    </style>
+
+    <!-- Weekday Text Appearance Style -->
+    <style name="CalendarWeekdayText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">#FFFFFF</item> <!-- White text color -->
+    </style>
+
+</resources>
+
+

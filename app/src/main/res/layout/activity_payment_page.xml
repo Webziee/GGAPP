@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentPage">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Logo Section -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp">
+
+            <ImageView
+                android:layout_width="280dp"
+                android:layout_height="100dp"
+                android:src="@drawable/logo_black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="340dp"
+                android:layout_height="150dp"
+                android:src="@drawable/paymentdescription"/>
+        </LinearLayout>
+
+        <!-- Payment Details Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Cardholder's Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cardholders_name"
+                android:textColor="#80000000"
+                android:paddingBottom="10dp"/>
+
+            <EditText
+                android:id="@+id/cardholder_name"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/custom_edittext_background"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:inputType="text"/>
+
+            <!-- Card Number -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/card_number"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:textColor="#80000000" />
+
+            <!-- Card Number Input Field with Icon Inside -->
+            <EditText
+                android:id="@+id/card_number"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/custom_edittext_background"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:inputType="number"
+                android:drawableLeft="@drawable/mastercardicon"
+                android:drawablePadding="10dp" />
+
+            <!-- Expiry and CVC Fields -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:weightSum="2">
+
+                <!-- Expiry Field with Label -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="15dp">
+
+                    <!-- Expiry Label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/expiry"
+                        android:paddingBottom="5dp"
+                        android:textSize="14sp"
+                        android:textColor="#80000000"/>
+
+                    <!-- Expiry EditText -->
+                    <EditText
+                        android:id="@+id/card_expiry"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/custom_edittext_background"
+                        android:padding="10dp"
+                        android:textSize="16sp"
+                        android:inputType="date" />
+                </LinearLayout>
+
+                <!-- CVC Field with Label -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_marginStart="15dp">
+
+                    <!-- CVC Label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CVC"
+                        android:paddingBottom="5dp"
+                        android:textSize="14sp"
+                        android:textColor="#80000000"/>
+
+                    <!-- CVC EditText -->
+                    <EditText
+                        android:id="@+id/card_cvc"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/custom_edittext_background"
+                        android:padding="10dp"
+                        android:textSize="16sp"
+                        android:inputType="number" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Discount Code Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp">
+
+                <!-- Discount Label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Discount"
+                    android:paddingBottom="5dp"
+                    android:textSize="14sp"
+                    android:textColor="#80000000"/>
+
+                <!-- Horizontal Layout for EditText and Button -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Discount Code Input Field -->
+                    <EditText
+                        android:id="@+id/discount_code"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_edittext_background"
+                        android:padding="10dp"
+                        android:textSize="16sp"/>
+
+                    <!-- Apply Button -->
+                    <Button
+                        android:id="@+id/apply_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Apply"
+                        android:background="@color/transparentColor"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="10dp"
+                        android:padding="10dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!-- Pay Button -->
+            <Button
+                android:id="@+id/pay_button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:text="@string/pay"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/white"
+                android:padding="12dp"
+                android:textSize="18sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

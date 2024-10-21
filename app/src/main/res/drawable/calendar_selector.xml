@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- State when date is selected -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/green" /> <!-- Background color for selected date -->
+            <corners android:radius="10dp" /> <!-- Rounded corners for the selected background -->
+        </shape>
+    </item>
+
+    <!-- Default state (when not selected) -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" /> <!-- No background when not selected -->
+        </shape>
+    </item>
+</selector>
