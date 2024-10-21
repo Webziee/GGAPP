@@ -17,8 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GGAPP"
         tools:targetApi="31">
+        <activity
+            android:name=".SignUp"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <!--google maps-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <!-- google maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDpEM9D1ICDFMN2M7RNbwhbNfNV9UH2dxs" />
@@ -26,7 +35,6 @@
         <activity
             android:name=".PaymentPage"
             android:exported="false" />
-
         <activity
             android:name=".Selected_Card"
             android:exported="false"
@@ -34,22 +42,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.GGAPP"
             android:windowSoftInputMode="adjustResize">
+
             <!-- Support for notch display -->
             <meta-data
                 android:name="android.notch_support"
                 android:value="true" />
         </activity>
-
-
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
     </application>
-
 
 </manifest>
