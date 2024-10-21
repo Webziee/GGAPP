@@ -295,14 +295,12 @@
             android:paddingRight="25dp"
             android:paddingBottom="5dp">
 
-            <ImageButton
-                android:id="@+id/googleImageButton"
-                android:layout_width="50dp"
-                android:layout_height="45dp"
-                android:background="?attr/selectableItemBackground"
-                android:contentDescription="@string/google_image_description"
-                android:scaleType="fitCenter"
-                android:src="@drawable/googleicon" />
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/googleSignInButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
 
             <TextView
                 android:layout_width="wrap_content"

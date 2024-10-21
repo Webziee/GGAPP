@@ -1,6 +1,8 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services") version "4.4.2"
 }
 
 android {
@@ -27,9 +29,8 @@ android {
         }
     }
 
-    buildFeatures{
-        viewBinding = 
-            true
+    buildFeatures {
+        viewBinding = true
     }
 
     compileOptions {
@@ -38,6 +39,16 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    packaging {
+        // Exclude duplicate META-INF files
+        resources {
+            excludes += "META-INF/INDEX.LIST"
+            excludes += "META-INF/LICENSE"
+            excludes += "META-INF/LICENSE-FIREBASE.txt"
+            excludes += "META-INF/NOTICE"
+        }
     }
 }
 
@@ -50,13 +61,10 @@ dependencies {
     // OkHttp for HTTP logging (optional but helpful for debugging)
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
-    //google maps
+    // Google Maps
     implementation ("com.google.android.gms:play-services-maps:18.0.2")
 
-    //material
-    implementation ("com.google.android.material:material:1.9.0")
-
-    //material ui
+    // Material UI
     implementation ("com.google.android.material:material:1.9.0")
 
     // Other dependencies
@@ -71,12 +79,20 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
-    //test
+    // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    // Glide for image loading
     implementation ("com.github.bumptech.glide:glide:4.15.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.0")
     implementation ("jp.wasabeef:glide-transformations:4.3.0")
+
+    // Import the Firebase BoM (Bill of Materials)
+    implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
+
+    // Firebase Authentication (keep only one `firebase-auth` dependency)
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-auth:21.0.1")
 }
