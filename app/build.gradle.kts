@@ -40,6 +40,16 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    packaging {
+        // Exclude duplicate META-INF files
+        resources {
+            excludes += "META-INF/INDEX.LIST"
+            excludes += "META-INF/LICENSE"
+            excludes += "META-INF/LICENSE-FIREBASE.txt"
+            excludes += "META-INF/NOTICE"
+        }
+    }
 }
 
 dependencies {
@@ -79,6 +89,10 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.0")
     implementation ("jp.wasabeef:glide-transformations:4.3.0")
 
-    // Import the Firebase BoM
+    // Import the Firebase BoM (Bill of Materials)
     implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
+
+    // Firebase Authentication (keep only one `firebase-auth` dependency)
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-auth:21.0.1")
 }
