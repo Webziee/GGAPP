@@ -1,26 +1,23 @@
 package com.example.ggapp
 
-import ImageAdapter
+import BookedRequest
+import BookedResponse
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class Selected_Card : AppCompatActivity() {
@@ -29,130 +26,167 @@ class Selected_Card : AppCompatActivity() {
     private var endDate: Long? = null
     private val dateFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
     private val pricePerNight = 2500
+    private var totalPrice: Long = 0
+    private val unavailableDates: MutableList<Pair<Long, Long>> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selected_card)
 
-        // Set the content to fullscreen, hiding the status bar
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                )
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-            window.attributes.layoutInDisplayCutoutMode =
-                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
-
         val calendarView = findViewById<CalendarView>(R.id.calendarView)
         val selectedDatesTextView = findViewById<TextView>(R.id.selectedDates)
         val numberOfDaysTextView = findViewById<TextView>(R.id.numberOfDays)
         val totalPriceTextView = findViewById<TextView>(R.id.totalPrice)
+        val bookButton = findViewById<Button>(R.id.BookNowButton)
 
-        // Set minimum and maximum dates if needed
-        calendarView.minDate = System.currentTimeMillis() // current date as min date
+        // Fetch extra data passed from the previous activity
+        val unitNumber = intent.getStringExtra("unitNumber") ?: "Unknown"
+        val unitPrice = intent.getIntExtra("price", pricePerNight)
+        val unitSleeper = intent.getIntExtra("sleeper", 0)
+        val unitImageUrl = intent.getStringExtra("imageUrl")
 
-        // Listener for date selection
+        // Display unit details
+        val unitImageView = findViewById<ImageView>(R.id.SelectedSheetImage)
+        val unitPriceTextView = findViewById<TextView>(R.id.SelectedSheetPrice)
+        val unitSleeperTextView = findViewById<TextView>(R.id.SelectedSheetSleeper)
+
+        Picasso.get().load(unitImageUrl).placeholder(R.drawable.placeholderimage).into(unitImageView)
+        unitPriceTextView.text = "Price R$unitPrice"
+        unitSleeperTextView.text = "Sleeper $unitSleeper"
+
+        // Initially, disable the book button
+        bookButton.isEnabled = false
+
+        // Fetch unavailable dates from Supabase for the current unit
+        fetchUnavailableDates(unitNumber)
+
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = Calendar.getInstance().apply {
                 set(year, month, dayOfMonth)
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
             }.timeInMillis
 
-            if (startDate == null) {
-                startDate = selectedDate
-                // Update the selected dates text
-                selectedDatesTextView.text = "${dateFormatter.format(selectedDate)}"
-            } else if (endDate == null && selectedDate > startDate!!) {
-                // Select end date if it’s after the start date
-                endDate = selectedDate
-                val numDays = TimeUnit.MILLISECONDS.toDays(endDate!! - startDate!!)
+            when {
+                startDate == null -> {
+                    if (isDateRangeAvailable(selectedDate, selectedDate)) {
+                        startDate = selectedDate
+                        selectedDatesTextView.text = dateFormatter.format(selectedDate)
+                    } else {
+                        Toast.makeText(this, "This date is not available.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                endDate == null && selectedDate >= startDate!! -> {
+                    // Check every single day between the start date and the selected date for availability
+                    var allDaysAvailable = true
+                    var checkDate = startDate!!
+                    while (checkDate <= selectedDate) {
+                        if (!isDateRangeAvailable(checkDate, checkDate)) {
+                            allDaysAvailable = false
+                            break
+                        }
+                        checkDate += TimeUnit.DAYS.toMillis(1) // Increment day by day
+                    }
 
-                // Calculate the total price
-                val totalPrice = numDays * pricePerNight
-
-                // Display the selected range in the TextView
-                selectedDatesTextView.text = "${dateFormatter.format(startDate!!)} to ${dateFormatter.format(endDate!!)}"
-                numberOfDaysTextView.text = "$numDays"
-                totalPriceTextView.text = "R$totalPrice"
-
-                // Reset selection after picking a range
-                startDate = null
-                endDate = null
-            } else {
-                // If user selects invalid end date or reselects start date, reset
-                Toast.makeText(this, "Invalid end date selected. Try again.", Toast.LENGTH_SHORT).show()
-                startDate = selectedDate
-                endDate = null
-                selectedDatesTextView.text = "${dateFormatter.format(selectedDate)}"
-                numberOfDaysTextView.text = ""
-                totalPriceTextView.text = ""
+                    if (allDaysAvailable) {
+                        endDate = selectedDate
+                        val numDays = TimeUnit.MILLISECONDS.toDays(endDate!! - startDate!! + 1)
+                        totalPrice = numDays * pricePerNight
+                        selectedDatesTextView.text = "${dateFormatter.format(startDate)} to ${dateFormatter.format(endDate)}"
+                        numberOfDaysTextView.text = "$numDays night(s)"
+                        totalPriceTextView.text = "Total Price: R$totalPrice"
+                        bookButton.isEnabled = true
+                    } else {
+                        Toast.makeText(this, "Part of this date range is not available.", Toast.LENGTH_LONG).show()
+                        resetDateSelection()
+                    }
+                }
+                else -> {
+                    Toast.makeText(this, "Invalid date selection. Please select the dates again.", Toast.LENGTH_SHORT).show()
+                    resetDateSelection()
+                }
             }
         }
 
 
-        // Initialize RecyclerView for horizontal image scrolling
-        val recyclerView = findViewById<RecyclerView>(R.id.imagerecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-        // List of image URLs
-        val imageUrls = listOf(
-            "https://www.artefect.co.za/wp-content/uploads/2018/04/Constantia-Guest-House-3.jpg",
-            "https://www.artefect.co.za/wp-content/uploads/2018/04/Southern-Suburbs-Apartment-4.jpg",
-            "https://www.artefect.co.za/wp-content/uploads/2018/04/Southern-Suburbs-Apartment-5.jpg",
-            "https://www.artefect.co.za/wp-content/uploads/2018/04/St-James-Guest-House-2.jpg",
-            "https://www.artefect.co.za/wp-content/uploads/2018/04/Constantia-Guest-House-6.jpg"
-        )
-
-        // Set the adapter with a click listener
-        recyclerView.adapter = ImageAdapter(imageUrls) { imageUrl ->
-            // Launch a new activity or fragment with the selected image URL
-            val intent = Intent(this, fullscreen::class.java)
-            intent.putExtra("imageUrl", imageUrl)
-            startActivity(intent)
-        }
-
-        // Retrieve data passed from the previous activity/fragment
-        val unitNumber = intent.getStringExtra("unitNumber")
-        val price = intent.getIntExtra("price", 0)
-        val sleeper = intent.getIntExtra("sleeper", 0)
-        val imageUrl = intent.getStringExtra("imageUrl")
-
-        // Find views in the layout
-        val unitNumberTextView = findViewById<TextView>(R.id.SelectedSheetUnit)
-        val priceTextView = findViewById<TextView>(R.id.SelectedSheetPrice)
-        val sleeperTextView = findViewById<TextView>(R.id.SelectedSheetSleeper)
-        val unitImageView = findViewById<ImageView>(R.id.SelectedSheetImage)
-
-        // Set data to the views
-        unitNumberTextView.text = "Unit $unitNumber"
-        priceTextView.text = "Price R$price"
-        sleeperTextView.text = "Sleeper $sleeper"
-
-        // Debug: Check for nulls and log appropriately
-        if (unitNumber != null) {
-            Log.d("SelectedCard", "Unit Number received: $unitNumber")
-        } else {
-            Log.e("SelectedCard", "Unit Number is null")
-        }
-
-        // Load image using Picasso, add a placeholder for safety
-        Picasso.get().load(imageUrl).placeholder(R.drawable.placeholderimage).into(unitImageView)
-
-
-        val bookButton = findViewById<Button>(R.id.BookNowButton)
 
         bookButton.setOnClickListener {
-            val intent = Intent(this, PaymentPage::class.java)
+            // Navigate to Payment Page, passing booking details and unit info
+            val intent = Intent(this, PaymentPage::class.java).apply {
+                putExtra("startDate", startDate)
+                putExtra("endDate", endDate)
+                putExtra("totalPrice", totalPrice)
+                putExtra("unitNumber", unitNumber)
+                putExtra("unitPrice", unitPrice)
+                putExtra("unitSleeper", unitSleeper)
+                putExtra("unitImageUrl", unitImageUrl)
+            }
             startActivity(intent)
         }
+    }
 
-        // Apply window insets if necessary
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+    private fun resetDateSelection() {
+        startDate = null
+        endDate = null
+        findViewById<TextView>(R.id.selectedDates).text = ""
+        findViewById<TextView>(R.id.numberOfDays).text = ""
+        findViewById<TextView>(R.id.totalPrice).text = ""
+        findViewById<Button>(R.id.BookNowButton).isEnabled = false
+    }
+
+    private fun isDateRangeAvailable(start: Long, end: Long): Boolean {
+        unavailableDates.forEach { (bookedStart, bookedEnd) ->
+            // Check if selected date range overlaps with any booked date range
+            if (start <= bookedEnd && end >= bookedStart) {
+                return false // Overlap found, so the date range is not available
+            }
+        }
+        return true // No overlap found, date range is available
+    }
+
+    private fun fetchUnavailableDates(unitNumber: String) {
+        SupabaseClient.api.getBookedDates(
+            SupabaseClient.getApiKey(), // API key
+            "Bearer ${SupabaseClient.getApiKey()}", // Bearer token
+            "application/json",
+            "eq.$unitNumber" // Pass the unit number with the equality operator
+        ).enqueue(object : Callback<List<BookedResponse>> {
+            override fun onResponse(call: Call<List<BookedResponse>>, response: Response<List<BookedResponse>>) {
+                if (response.isSuccessful) {
+                    val bookings = response.body() ?: emptyList()
+                    updateUnavailableDates(bookings)
+                } else {
+                    Log.e("Supabase", "Failed to fetch booked dates: ${response.code()} - ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<BookedResponse>>, t: Throwable) {
+                Log.e("Supabase", "Error fetching booked dates", t)
+            }
+        })
+    }
+
+    private fun updateUnavailableDates(bookedDates: List<BookedResponse>) {
+        unavailableDates.clear()
+        bookedDates.forEach { booking ->
+            val startMillis = convertDateToMillis(booking.start_date)
+            val endMillis = convertDateToMillis(booking.end_date)
+            unavailableDates.add(Pair(startMillis, endMillis))
         }
     }
+
+
+
+    private fun convertDateToMillis(date: String): Long {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return try {
+            sdf.parse(date)?.time ?: 0
+        } catch (e: ParseException) {
+            Log.e("Selected_Card", "Error parsing date: $date", e)
+            0
+        }
+    }
+
 }

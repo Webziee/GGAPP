@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             view.updatePadding(
                 left = systemBars.left,
                 right = systemBars.right,
-
+                top = systemBars.top
             )
             insets
         }
