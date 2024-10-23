@@ -59,7 +59,7 @@ class PaymentPage : AppCompatActivity() {
                 val userEmail = currentUser.email
 
                 if (validatePaymentDetails(cardholderName, cardNumber, cardExpiry, cardCVC)) {
-                    Toast.makeText(this, "Payment details are valid. Proceeding to payment...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Payment details are valid.", Toast.LENGTH_SHORT).show()
 
                     // Now use the logged-in user's email
                     if (userEmail != null) {

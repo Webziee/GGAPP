@@ -69,16 +69,6 @@ class ExplorePage : Fragment(), OnMapReadyCallback {
         // Fetch bookings data from Supabase
         fetchBookings()
 
-        availablerooms = view.findViewById(R.id.availableRooms)
-        allrooms = view.findViewById(R.id.allRooms)
-
-        availablerooms.setOnClickListener {
-            Toast.makeText(requireContext(), "Available rooms Button Clicked", Toast.LENGTH_SHORT).show()
-        }
-
-        allrooms.setOnClickListener {
-            Toast.makeText(requireContext(), "All rooms Button Clicked", Toast.LENGTH_SHORT).show()
-        }
 
         // Handle insets
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.main)) { v, insets ->
