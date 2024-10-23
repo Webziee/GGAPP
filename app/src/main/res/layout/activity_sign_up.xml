@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/bluredbg" />
+        android:src="@drawable/bluredbg"
+        android:contentDescription="@string/background"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +29,9 @@
             android:layout_height="200dp"
             android:layout_gravity="top"
             android:layout_marginTop="-30dp"
-            android:src="@drawable/logo" />
+            android:contentDescription="@string/logo"
+            android:src="@drawable/logo"
+            tools:ignore="ImageContrastCheck" />
 
         <!-- LogInLayout and SignUpLayout -->
         <LinearLayout
@@ -49,23 +52,24 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:gravity="center"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:background="@drawable/googleborder"
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="10dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/signInEmail"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:ems="10"
-                android:inputType="textPersonName|textEmailAddress"
-                android:background="@color/transparentColor"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                android:textStyle="normal" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signInEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/transparentColor"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="textPersonName|textEmailAddress"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password field -->
@@ -77,23 +81,24 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:background="@drawable/googleborder"
-            android:hint="password"
+            android:hint="@string/password"
             app:endIconMode="password_toggle"
             android:textColorHint="@color/white"
             android:layout_marginBottom="10dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signInPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:ems="10"
-            android:background="@color/transparentColor"
-            android:inputType="textPassword"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            android:textStyle="normal" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signInPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/transparentColor"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textPassword"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:textStyle="normal"
+                tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>
@@ -258,7 +263,8 @@
                 android:text="@string/or"
                 android:textColor="#474646"
                 android:textSize="18sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                tools:ignore="TextContrastCheck" />
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
@@ -293,17 +299,18 @@
                 android:id="@+id/SignIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:text="@string/dont_have_an_accont"
                 android:textAlignment="textEnd"
                 android:textColor="@color/white"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/signInText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 android:text="@string/sign_in"
                 android:textAlignment="center"
                 android:textColor="@color/white"
@@ -315,12 +322,13 @@
                 android:id="@+id/signUpText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 android:text="@string/sign_up"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
     </LinearLayout>
