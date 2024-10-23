@@ -1,24 +1,280 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
     tools:context=".ProfilePage">
 
-    <!-- Profile content -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="hello"
-        android:textSize="24sp"
-        android:gravity="center" />
+        android:layout_height="wrap_content">
 
-    <!-- Logout Button -->
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="50dp"
-        android:text="Logout" />
-</FrameLayout>
+        <!-- Profile Card Container -->
+        <LinearLayout
+            android:id="@+id/profile_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/profile_card_background"
+            android:padding="24dp"
+            android:layout_margin="1dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="48dp">
+
+            <!-- Profile Image -->
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp">
+
+                <!-- Circular Profile Image -->
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/profileimage"
+                    android:scaleType="centerCrop"
+                    android:elevation="4dp"/>
+            </RelativeLayout>
+
+            <!-- User Name -->
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Victoria Heard"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Personal Information Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/profile_card_background"
+                android:elevation="15dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="8dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Personal Information"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <!-- Edit Icon -->
+                    <TextView
+                        android:id="@+id/edit_profile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Edit"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorAccent"
+                        android:gravity="end"
+                        android:layout_marginEnd="20dp"/>
+                </LinearLayout>
+
+                <!-- Email -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="8dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_icon"
+                        app:tint="@android:color/black"/>
+
+                    <TextView
+                        android:id="@+id/email_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="heard.j@gmail.com"
+                        android:layout_marginStart="16dp"/>
+                </LinearLayout>
+
+                <!-- Phone Section (With Edit Functionality) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="8dp"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_phone"
+                        app:tint="@android:color/black"/>
+
+                    <!-- Phone number TextView (Visible by default) -->
+                    <TextView
+                        android:id="@+id/phone_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="9989711232"
+                        android:layout_marginStart="16dp"
+                        android:visibility="visible"/>
+
+                    <!-- EditText for editing phone number (Initially hidden) -->
+                    <EditText
+                        android:id="@+id/edit_phone_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Enter phone number"
+                        android:layout_marginStart="16dp"
+                        android:inputType="phone"
+                        android:visibility="gone"/>
+                </LinearLayout>
+
+                <!-- Save Button -->
+                <Button
+                    android:id="@+id/save_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/googleborder"/>
+
+
+            <!-- Utilities and Logout Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Utilities"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="30dp"
+                android:textStyle="bold"/>
+
+            <!-- Downloads Button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/baseline_download_24"
+                    app:tint="@android:color/black"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Downloads"
+                    android:layout_marginStart="16dp"/>
+            </LinearLayout>
+
+            <!-- Usage Analytics Button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_analytics"
+                    app:tint="@android:color/black"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Usage Analytics"
+                    android:layout_marginStart="16dp"/>
+            </LinearLayout>
+
+            <!-- Ask Help-Desk Button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_help"
+                    app:tint="@android:color/black"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ask Help-Desk"
+                    android:layout_marginStart="16dp"/>
+            </LinearLayout>
+
+            <!-- Log Out Button -->
+            <LinearLayout
+                android:id="@+id/log_out_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_logout"
+                    app:tint="@android:color/holo_red_light"/>
+
+                <TextView
+                    android:id="@+id/log_out_button_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Log Out"
+                    android:textColor="@android:color/holo_red_light"
+                    android:layout_marginStart="16dp"/>
+            </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

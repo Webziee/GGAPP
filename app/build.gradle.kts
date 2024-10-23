@@ -73,11 +73,13 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.firestore.ktx)
 
     // Testing dependencies
     testImplementation(libs.junit)
@@ -95,4 +97,5 @@ dependencies {
     // Firebase Authentication (keep only one `firebase-auth` dependency)
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-auth:21.0.1")
+    implementation("com.google.firebase:firebase-storage:20.0.0")
 }

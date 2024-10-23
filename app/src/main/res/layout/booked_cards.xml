@@ -73,10 +73,13 @@
             android:padding="8dp"
             >
 
-            <ImageView
-                android:layout_width="128dp"
-                android:layout_height="27dp"
-                android:src="@drawable/uniticons"/>
+            <Button
+                android:id="@+id/cancel_booking_button"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:text="@string/cancel_booking"
+                android:backgroundTint="@color/black"
+                />
 
         </LinearLayout>
     </LinearLayout>
