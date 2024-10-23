@@ -8,11 +8,16 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.example.ggapp.databinding.ActivityMainBinding
+//import com.example.ggapp.explore.ExplorePage
+//import com.example.ggapp.bookings.BookedPage
+//import com.example.ggapp.profile.ProfilePage
 import com.example.goergesgraceapp.ExplorePage
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +25,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         // Set the content view using the binding root
         setContentView(binding.root)
+
+        // Initialize FirebaseAuth
+        auth = FirebaseAuth.getInstance()
+
+        // Check if user is signed in and handle accordingly
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            // No user is signed in, redirect to SignUp/SignIn page
+            redirectToSignUp()
+        }
 
         // Enable edge-to-edge after setting content view
         enableEdgeToEdge()
@@ -54,7 +69,12 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, fragment)
+        fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
+    }
+
+    private fun redirectToSignUp() {
+        // Implement the logic to redirect to SignUp or SignIn screen
+        // You could use Intent to start the activity
     }
 }

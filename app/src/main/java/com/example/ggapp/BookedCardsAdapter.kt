@@ -1,13 +1,13 @@
 package com.example.ggapp
 
 import BookedResponse
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ggapp.R
 import com.squareup.picasso.Picasso
 
 class BookedCardAdapter(
@@ -18,7 +18,6 @@ class BookedCardAdapter(
     inner class BookedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val unitImage: ImageView = itemView.findViewById(R.id.UnitImage)
         val unitNumber: TextView = itemView.findViewById(R.id.UnitNumber)
-
         val unitSleepers: TextView = itemView.findViewById(R.id.UnitSleepers)
         val unitAvailability: TextView = itemView.findViewById(R.id.UnitAvailability)
         val date: TextView = itemView.findViewById(R.id.date)
@@ -32,6 +31,8 @@ class BookedCardAdapter(
     override fun onBindViewHolder(holder: BookedViewHolder, position: Int) {
         val currentItem = bookedList[position]
 
+        Log.d("RecyclerView", "Displaying booking for unit ${currentItem.unit_number}, user email: ${currentItem.user_email}")
+
         // Bind data to the views
         if (!currentItem.unitImages.isNullOrEmpty()) {
             Picasso.get().load(currentItem.unitImages).into(holder.unitImage)
@@ -40,29 +41,28 @@ class BookedCardAdapter(
         }
 
         holder.unitNumber.text = "Unit ${currentItem.unit_number}"
-        
         holder.unitSleepers.text = "6 Sleepers"
-        holder.unitAvailability.text = "Paid"
+        holder.unitAvailability.text = if (currentItem.payment_status == "Paid") "Paid" else "Unpaid"
+
         if (currentItem.start_date != null && currentItem.end_date != null) {
             holder.date.text = "${currentItem.start_date} - ${currentItem.end_date}"
         } else {
             holder.date.text = "Dates not available"
         }
 
-        // Handle click event
+        // Handle click event for the specific booking
         holder.itemView.setOnClickListener {
             onBookingClick(currentItem)
         }
     }
 
-
     override fun getItemCount(): Int {
         return bookedList.size
     }
 
+    // Function to update the data in the RecyclerView when the booked list changes
     fun updateData(newBookedList: List<BookedResponse>) {
         bookedList = newBookedList
         notifyDataSetChanged()  // Notify the RecyclerView to refresh
     }
-
 }

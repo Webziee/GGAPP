@@ -34,7 +34,6 @@ interface SupabaseApi {
         @Query("unit_number") unitNumber: String // dynamically pass the unit number
     ): Call<List<BookedResponse>>
 
-
     // Method to insert a new booked entry into the "Booked" table
     @POST("Booked")
     fun addBookedDates(
@@ -44,12 +43,21 @@ interface SupabaseApi {
         @Body newBooked: BookedRequest
     ): Call<Void>
 
+    // Method to fetch bookings for the logged-in user
+    @GET("Booked")
+    fun getPaidBookingsForUser(
+        @Header("apikey") apiKey: String,
+        @Header("Authorization") authToken: String,
+        @Header("Content-Type") contentType: String = "application/json",
+        @Query("user_email") userEmail: String  // Pass the user's email as a query parameter
+    ): Call<List<BookedResponse>>
+
+    // Method to get bookings filtered by user email (from the Booked table)
     @GET("Booked")
     fun getPaidBookings(
         @Header("apikey") apiKey: String,
         @Header("Authorization") authToken: String,
-        @Header("Content-Type") contentType: String = "application/json"
+        @Header("Content-Type") contentType: String = "application/json",
+        @Query("user_email") userEmail: String // Filter by user's email
     ): Call<List<BookedResponse>>
-
-
 }

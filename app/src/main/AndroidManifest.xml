@@ -2,10 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
 
     <application
         android:allowBackup="true"
@@ -17,13 +21,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GGAPP"
         tools:targetApi="31">
+
+        <!-- Activities -->
         <activity
             android:name=".SignUp"
             android:exported="false" >
-
-
         </activity>
-        <!-- google maps -->
+
+        <!-- Google Maps API key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDpEM9D1ICDFMN2M7RNbwhbNfNV9UH2dxs" />
@@ -44,16 +49,20 @@
                 android:name="android.notch_support"
                 android:value="true" />
         </activity>
+
+        <!-- BookedPage activity added here -->
+        <activity
+            android:name=".BookedPage"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
