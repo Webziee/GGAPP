@@ -2,6 +2,7 @@ package com.example.ggapp
 
 import BookedResponse
 import Bookings
+import BookingsCardAdapter
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class BookedPage : Fragment() {
 
@@ -35,8 +37,8 @@ class BookedPage : Fragment() {
         bookingsRecyclerView = view.findViewById(R.id.BookingsRecyclerView)
         bookingsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Initialize the adapter with an empty mutable list
-        bookingsAdapter = BookedCardAdapter(mutableListOf()) { booking ->
+        // Initialize the adapter with an empty list
+        bookingsAdapter = BookedCardAdapter(emptyList()) { booking ->
             // Handle booking click
             Log.d("BookedPage", "Clicked booking: ${booking.unit_number}")
         }
@@ -54,7 +56,9 @@ class BookedPage : Fragment() {
             override fun onResponse(call: Call<List<BookedResponse>>, response: Response<List<BookedResponse>>) {
                 if (response.isSuccessful) {
                     val paidBookingsList = response.body() ?: emptyList()
-                    fetchImagesForBookings(paidBookingsList) // Make sure this fetches updated data
+
+                    // Fetch the bookings data to get images
+                    fetchImagesForBookings(paidBookingsList)
                 } else {
                     Log.e("SupabaseError", "API call failed: ${response.errorBody()?.string()}")
                 }
@@ -92,4 +96,5 @@ class BookedPage : Fragment() {
             }
         })
     }
+
 }

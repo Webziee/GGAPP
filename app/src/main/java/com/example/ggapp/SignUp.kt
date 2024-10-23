@@ -2,6 +2,7 @@ package com.example.ggapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
@@ -32,7 +33,6 @@ class SignUp : AppCompatActivity() {
     private lateinit var signuppassword: TextInputEditText
     private lateinit var signupconfirmpassword: TextInputEditText
     private lateinit var signup_buttom: Button
-    private lateinit var redirectToSignInBtn: Button // NEW: Button to redirect to sign in
 
     private lateinit var progressBar: ProgressBar
     private lateinit var googleSignInButton: com.google.android.gms.common.SignInButton
@@ -45,6 +45,12 @@ class SignUp : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Hide the status bar and make the activity fullscreen
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        actionBar?.hide() // Hide the action bar if it exists
+
         setContentView(R.layout.activity_sign_up)
 
         // Initialize Firebase Authentication
@@ -53,7 +59,9 @@ class SignUp : AppCompatActivity() {
         // Check if user is already signed in
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            navigateToMainPage() // User is already signed in, navigate to the main page
+            Log.d("Authentication", "User is already signed in: ${currentUser.email}")
+        } else {
+            Log.e("Authentication", "No user signed in")
         }
 
         // Initialize UI
@@ -81,9 +89,6 @@ class SignUp : AppCompatActivity() {
         signin_button.setOnClickListener { signInUser() }
         googleSignInButton.setOnClickListener { signInWithGoogle() }
 
-        // NEW: Redirect button listener
-        redirectToSignInBtn.setOnClickListener { switchToSignIn() } // Switch back to sign-in page
-
         // Handle switching between Log In and Sign Up layouts
         signuptext.setOnClickListener { switchToSignUp() }
         signintext.setOnClickListener { switchToSignIn() }
@@ -102,7 +107,6 @@ class SignUp : AppCompatActivity() {
         signuppassword = findViewById(R.id.signUpPassword)
         signupconfirmpassword = findViewById(R.id.signUpConfirmPassword)
         signup_buttom = findViewById(R.id.signUpBtn)
-        redirectToSignInBtn = findViewById(R.id.redirectToSignInBtn) // Initialize the new button
 
         googleSignInButton = findViewById(R.id.googleSignInButton)
         progressBar = findViewById(R.id.progressbar)
@@ -133,6 +137,8 @@ class SignUp : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     progressBar.visibility = View.GONE
                     if (task.isSuccessful) {
+                        val userEmail = auth.currentUser?.email
+                        Log.d("GoogleSignIn", "User signed in with email: $userEmail")
                         navigateToMainPage()
                     } else {
                         showToast("Google authentication failed: ${task.exception?.message}")
@@ -175,6 +181,8 @@ class SignUp : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     progressBar.visibility = View.GONE
                     if (task.isSuccessful) {
+                        val userEmail = auth.currentUser?.email
+                        Log.d("SignIn", "User signed in with email: $userEmail")
                         navigateToMainPage()
                     } else {
                         showToast("Sign-in failed: ${task.exception?.message}")

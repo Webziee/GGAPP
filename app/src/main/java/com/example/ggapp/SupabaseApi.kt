@@ -51,11 +51,5 @@ interface SupabaseApi {
         @Header("Content-Type") contentType: String = "application/json"
     ): Call<List<BookedResponse>>
 
-    @PATCH("Booked")
-    fun updateBookingStatus(
-        @Header("apikey") apiKey: String,
-        @Header("Authorization") authToken: String,
-        @Query("id", encoded = true) bookingId: String, // Use the correct equality operator
-        @Body updatedBooking: Map<String, String>
-    ): Call<Void>
+
 }
