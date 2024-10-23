@@ -12,10 +12,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 class BookedPage : Fragment() {
 
@@ -44,11 +44,19 @@ class BookedPage : Fragment() {
         }
         bookingsRecyclerView.adapter = bookingsAdapter
 
-        // Fetch paid bookings from the Booked table in Supabase
-        fetchPaidBookings()
+        // Get the logged-in user's email and fetch their bookings
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            val userEmail = currentUser.email
+            userEmail?.let {
+                fetchPaidBookings(it) // Fetch bookings for the logged-in user's email
+            }
+        } else {
+            Toast.makeText(requireContext(), "No user is logged in.", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun fetchPaidBookings() {
+    private fun fetchPaidBookings(userEmail: String) {
         SupabaseClient.api.getPaidBookings(
             apiKey = SupabaseClient.getApiKey(),
             authToken = "Bearer ${SupabaseClient.getApiKey()}"
@@ -57,8 +65,11 @@ class BookedPage : Fragment() {
                 if (response.isSuccessful) {
                     val paidBookingsList = response.body() ?: emptyList()
 
+                    // Filter bookings by user email
+                    val userBookings = paidBookingsList.filter { it.user_email == userEmail }
+
                     // Fetch the bookings data to get images
-                    fetchImagesForBookings(paidBookingsList)
+                    fetchImagesForBookings(userBookings)
                 } else {
                     Log.e("SupabaseError", "API call failed: ${response.errorBody()?.string()}")
                 }

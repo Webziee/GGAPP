@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,10 +51,25 @@ class PaymentPage : AppCompatActivity() {
         addExpiryDateTextWatcher(cardExpiry)
 
         payButton.setOnClickListener {
-            if (validatePaymentDetails(cardholderName, cardNumber, cardExpiry, cardCVC)) {
-                Toast.makeText(this, "Payment details are valid. Proceeding to payment...", Toast.LENGTH_SHORT).show()
-                val userEmail = "example@example.com"
-                saveBookingToSupabase(unitNumber, startDate, endDate, userEmail, unitImages)
+            // Get the current Firebase user
+            val currentUser = FirebaseAuth.getInstance().currentUser
+
+            if (currentUser != null) {
+                // Retrieve the user's email
+                val userEmail = currentUser.email
+
+                if (validatePaymentDetails(cardholderName, cardNumber, cardExpiry, cardCVC)) {
+                    Toast.makeText(this, "Payment details are valid. Proceeding to payment...", Toast.LENGTH_SHORT).show()
+
+                    // Now use the logged-in user's email
+                    if (userEmail != null) {
+                        saveBookingToSupabase(unitNumber, startDate, endDate, userEmail, unitImages)
+                    } else {
+                        Toast.makeText(this, "User email not found.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "No user is logged in.", Toast.LENGTH_SHORT).show()
             }
         }
     }
