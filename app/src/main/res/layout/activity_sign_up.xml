@@ -40,7 +40,7 @@
             android:orientation="vertical"
             android:padding="15dp">
 
-            <!--            email field-->
+            <!-- Email field -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
@@ -54,48 +54,49 @@
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="10dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/signInEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:ems="10"
-                    android:inputType="textPersonName|textEmailAddress"
-                    android:background="@color/transparentColor"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="13sp"
-                    android:textStyle="normal" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!--            password field-->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signInEmail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/googleborder"
-                android:hint="password"
-                app:endIconMode="password_toggle"
-                android:textColorHint="@color/white"
-                >
+                android:layout_height="50dp"
+                android:ems="10"
+                android:inputType="textPersonName|textEmailAddress"
+                android:background="@color/transparentColor"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/signInPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:ems="10"
-                    android:background="@color/transparentColor"
-                    android:inputType="textPassword"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="13sp"
-                    android:textStyle="normal" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+        <!-- Password field -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/googleborder"
+            android:hint="password"
+            app:endIconMode="password_toggle"
+            android:textColorHint="@color/white"
+            android:layout_marginBottom="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signInPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:ems="10"
+            android:background="@color/transparentColor"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="normal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
 
         <!-- signUp layout-->
         <LinearLayout
@@ -217,7 +218,7 @@
             android:text="@string/sign_in"
             android:textAllCaps="false"
             android:textSize="17sp"
-            android:visibility="gone"/>
+            />
 
         <Button
             android:id="@+id/signUpBtn"
@@ -231,25 +232,8 @@
             android:elevation="15dp"
             android:gravity="center"
             android:text="@string/sign_up"
-            android:textSize="17sp" />
-
-
-
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/sign_up_with_text"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="center"-->
-        <!--            android:layout_marginTop="16dp"-->
-        <!--            android:layout_marginBottom="16dp"-->
-        <!--            android:gravity="center"-->
-        <!--            android:text="or"-->
-        <!--            android:textAlignment="center"-->
-        <!--            android:textColor="#474646"-->
-        <!--            android:textSize="18sp"-->
-        <!--            android:textStyle="normal"-->
-        <!--            android:visibility="gone" />-->
+            android:textSize="17sp"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -290,7 +274,8 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/transparentColor"/>
+                android:padding="-10dp"
+                />
 
         <!-- Switch texts  -->
         <LinearLayout
@@ -338,53 +323,5 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
-        <!--        &lt;!&ndash; Switch buttons and content within the CardView &ndash;&gt;-->
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="64dp"-->
-        <!--            android:layout_gravity="bottom"-->
-        <!--            android:layout_marginStart="20dp"-->
-        <!--            android:layout_marginTop="40dp"-->
-        <!--            android:layout_marginBottom="-70dp"-->
-        <!--            android:layout_marginEnd="20dp"-->
-        <!--            android:gravity="bottom"-->
-        <!--            android:orientation="horizontal"-->
-        <!--            android:padding="6dp"-->
-        <!--            android:weightSum="2">-->
-
-        <!--            <TextView-->
-        <!--                android:id="@+id/logIn"-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="50dp"-->
-        <!--                android:layout_gravity="center"-->
-        <!--                android:layout_weight="1"-->
-        <!--                android:gravity="center"-->
-        <!--                android:paddingLeft="15dp"-->
-        <!--                android:paddingTop="5dp"-->
-        <!--                android:paddingRight="15dp"-->
-        <!--                android:paddingBottom="5dp"-->
-        <!--                android:text="log in"-->
-        <!--                android:textAlignment="center"-->
-        <!--                android:textSize="16sp"-->
-        <!--                android:textStyle="bold|normal" />-->
-
-        <!--            <TextView-->
-        <!--                android:id="@+id/singUp"-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="50dp"-->
-        <!--                android:layout_gravity="center"-->
-        <!--                android:layout_weight="1"-->
-        <!--                android:gravity="center"-->
-        <!--                android:paddingLeft="15dp"-->
-        <!--                android:paddingTop="5dp"-->
-        <!--                android:paddingRight="15dp"-->
-        <!--                android:paddingBottom="5dp"-->
-        <!--                android:text="sign up"-->
-        <!--                android:textAlignment="center"-->
-        <!--                android:textSize="16sp"-->
-        <!--                android:textStyle="bold|normal" />-->
-
-        <!--        </LinearLayout>-->
     </LinearLayout>
 </FrameLayout>
