@@ -275,7 +275,6 @@
                 android:textColor="#474646"
                 android:textSize="18sp"
                 android:textStyle="normal" />
-
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
@@ -284,35 +283,14 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/googleborder"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingTop="5dp"
-            android:paddingRight="25dp"
-            android:paddingBottom="5dp">
-
+            <!--google sign in-->
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/googleSignInButton"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="@string/google"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-        </LinearLayout>
+                android:layout_gravity="center"
+                android:background="@color/transparentColor"/>
 
         <!-- Switch texts  -->
         <LinearLayout
