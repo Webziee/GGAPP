@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    />
 
     <application
         android:allowBackup="true"
@@ -17,16 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GGAPP"
         tools:targetApi="31">
+
         <activity
             android:name=".SignUp"
             android:exported="true" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity android:name=".BookedPage"
@@ -40,6 +42,7 @@
         <activity
             android:name=".PaymentPage"
             android:exported="false" />
+
         <activity
             android:name=".Selected_Card"
             android:exported="false"
@@ -53,9 +56,10 @@
                 android:name="android.notch_support"
                 android:value="true" />
         </activity>
+
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="true">
         </activity>
     </application>
 

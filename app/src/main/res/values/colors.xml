@@ -5,4 +5,9 @@
     <color name="green">#179900</color>
     <color name="red">#C62E2E</color>
 
+    <color name="colorAccent">#fffc466b</color>
+    <color name="colorPrimary">#1A1A1A</color>
+    <color name="colorPrimaryDark">#0E0E0E</color>
+
+
 </resources>

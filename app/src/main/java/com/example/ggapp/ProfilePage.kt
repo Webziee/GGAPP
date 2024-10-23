@@ -1,78 +1,127 @@
 package com.example.ggapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfilePage : Fragment() {
-    // Parameters for fragment arguments
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var userEmailTextView: TextView
+    private lateinit var userNameTextView: TextView
+    private lateinit var phoneTextView: TextView
+    private lateinit var editPhoneEditText: EditText
+    private lateinit var editProfileButton: TextView
+    private lateinit var logoutButton: LinearLayout
+    private lateinit var saveButton: Button
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile_page, container, false)
 
-        // Find the logout button
-        val logoutButton: Button = view.findViewById(R.id.logoutButton)
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
-        // Set up the click listener for the logout button
+        // Initialize Views
+        userEmailTextView = view.findViewById(R.id.email_value)
+        userNameTextView = view.findViewById(R.id.user_name)
+        phoneTextView = view.findViewById(R.id.phone_value)
+        editPhoneEditText = view.findViewById(R.id.edit_phone_value)
+        editProfileButton = view.findViewById(R.id.edit_profile)
+        logoutButton = view.findViewById(R.id.log_out_button)
+        saveButton = view.findViewById(R.id.save_button) // Save Button for phone editing
+
+        // Populate Email and Name
+        populateUserDetails()
+
+        // Set onClickListener for editing phone number
+        editProfileButton.setOnClickListener {
+            enablePhoneEditing()
+        }
+
+        // Set onClickListener for saving phone number
+        saveButton.setOnClickListener {
+            savePhoneNumber()
+        }
+
+        // Set onClickListener for Logout
         logoutButton.setOnClickListener {
-            logoutUser()
+            logOutUser()
         }
 
         return view
     }
 
-    // Method to log out the current user
-    private fun logoutUser() {
-        // Sign out from Firebase authentication
-        FirebaseAuth.getInstance().signOut()
+    private fun populateUserDetails() {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val email = currentUser.email
+            userEmailTextView.text = email
 
-        // Redirect the user to the SignUp (or SignIn) screen
-        val intent = Intent(requireContext(), SignUp::class.java)
-        // Clear the activity back stack to prevent going back to the logged-in state
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+            // Extract name from email before '@'
+            val name = email?.substringBefore('@')?.replaceFirstChar { it.uppercase() }
+            userNameTextView.text = name ?: "User Name"
+
+            // Fetch phone number from Firestore and populate the TextView
+            db.collection("users").document(currentUser.uid).get()
+                .addOnSuccessListener { document ->
+                    val phoneNumber = document.getString("phone")
+                    phoneTextView.text = phoneNumber ?: "Not Available"
+                }
+        } else {
+            Toast.makeText(context, "No user signed in", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfilePage.
-         */
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfilePage().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun enablePhoneEditing() {
+        // Hide the TextView and show the EditText to allow editing
+        phoneTextView.visibility = View.GONE
+        editPhoneEditText.visibility = View.VISIBLE
+        saveButton.visibility = View.VISIBLE
+
+        // Populate the EditText with the current phone number
+        editPhoneEditText.setText(phoneTextView.text.toString())
+    }
+
+    private fun savePhoneNumber() {
+        val currentUser = auth.currentUser ?: return
+        val newPhoneNumber = editPhoneEditText.text.toString()
+
+        if (newPhoneNumber.isEmpty()) {
+            Toast.makeText(context, "Phone number cannot be empty", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Save the new phone number to Firestore
+        db.collection("users").document(currentUser.uid)
+            .update("phone", newPhoneNumber)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Phone number updated successfully", Toast.LENGTH_SHORT).show()
+
+                // Update the TextView with the new phone number and hide the EditText
+                phoneTextView.text = newPhoneNumber
+                phoneTextView.visibility = View.VISIBLE
+                editPhoneEditText.visibility = View.GONE
+                saveButton.visibility = View.GONE
             }
+            .addOnFailureListener {
+                Toast.makeText(context, "Failed to update phone number", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun logOutUser() {
+        auth.signOut()
+        // Redirect to login or welcome screen
+        // val intent = Intent(activity, LoginActivity::class.java)
+        // startActivity(intent)
+        activity?.finish() // Finish current activity
     }
 }
