@@ -132,11 +132,14 @@ class PaymentPage : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Toast.makeText(this@PaymentPage, "Payment successful! Booking saved.", Toast.LENGTH_SHORT).show()
 
-                        // Navigate to BookedPage Fragment after successful payment
-                        val bookedPageFragment = BookedPage()
-                        replaceFragment(bookedPageFragment)
+                        // Close the PaymentPage activity
+                        finish()
 
-                    } else {
+                        // Navigate to BookedPage Fragment
+                        val bookedPageFragment = ProfilePage()
+                        replaceFragment(bookedPageFragment)
+                    }
+                    else {
                         Toast.makeText(this@PaymentPage, "Error: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                     }
                 }
