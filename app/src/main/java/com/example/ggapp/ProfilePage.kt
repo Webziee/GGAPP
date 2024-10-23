@@ -1,5 +1,6 @@
 package com.example.ggapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -120,8 +121,8 @@ class ProfilePage : Fragment() {
     private fun logOutUser() {
         auth.signOut()
         // Redirect to login or welcome screen
-        // val intent = Intent(activity, LoginActivity::class.java)
-        // startActivity(intent)
+        val intent = Intent(activity, SignUp::class.java)
+         startActivity(intent)
         activity?.finish() // Finish current activity
     }
 }
