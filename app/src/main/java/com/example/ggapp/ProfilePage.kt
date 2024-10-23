@@ -122,7 +122,7 @@ class ProfilePage : Fragment() {
         auth.signOut()
         // Redirect to login or welcome screen
         val intent = Intent(activity, SignUp::class.java)
-         startActivity(intent)
+        startActivity(intent)
         activity?.finish() // Finish current activity
     }
 }
