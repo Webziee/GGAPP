@@ -30,8 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // Force Light Mode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
 
         // Inflate the binding
         binding = ActivityMainBinding.inflate(layoutInflater)
