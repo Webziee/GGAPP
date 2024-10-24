@@ -1,6 +1,10 @@
 package com.example.ggapp
 
 import BookedResponse
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,9 +20,10 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.TimeUnit
 
 class BookedCardAdapter(
-    private var bookedList: MutableList<BookedResponse>, // Use MutableList for modifying data
+    var bookedList: MutableList<BookedResponse>, // Use MutableList for modifying data
     private val onBookingClick: (BookedResponse) -> Unit, // Lambda function to handle clicks
     private val onBookingCancelled: (BookedResponse) -> Unit, // Lambda for cancelling bookings
     private val onBookingRemoved: (BookedResponse) -> Unit // Lambda for removing bookings
@@ -95,8 +100,6 @@ class BookedCardAdapter(
 
                 // Show the dialog before customizing the button colors
                 dialog.show()
-
-                // Set custom colors for the dialog buttons
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)    // "Yes" button in red
                 dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY)   // "No" button in gray
             }
@@ -147,13 +150,16 @@ class BookedCardAdapter(
             }
             .create()
 
-        // Show the dialog before customizing the button colors
-        dialog.show()
+        dialog.setOnShowListener {
+            // Ensure button colors are set when the dialog is shown
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(Color.RED)    // "Yes" button in red
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(Color.GRAY)   // "No" button in gray
+        }
 
-        // Set custom colors for the dialog buttons
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)    // "Yes" button in red
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY)   // "No" button in gray
+        // Show the dialog
+        dialog.show()
     }
+
 
     fun removeBooking(booking: BookedResponse) {
         SupabaseClient.api.updateRemovedStatus(

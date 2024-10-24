@@ -18,6 +18,11 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
+import androidx.core.app.NotificationCompat
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 
 class PaymentPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,16 +36,15 @@ class PaymentPage : AppCompatActivity() {
         val unitNumber = intent.getStringExtra("unitNumber") ?: "Unknown"
         val unitImages = intent.getStringExtra("unitImageUrl") ?: ""
 
-        // Now you can use this data to display it or process it further
+        // Set up UI elements
         val totalPriceTextView = findViewById<TextView>(R.id.totalPriceTextView)
         totalPriceTextView.text = "Total Price: R$totalPrice"
 
-        // Display start date and end date if needed
         val dateTextView = findViewById<TextView>(R.id.dateTextView)
         val dateFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         dateTextView.text = "Booking: ${dateFormatter.format(Date(startDate))} to ${dateFormatter.format(Date(endDate))}"
 
-        // Setup the payment logic...
+        // Setup payment logic
         val cardholderName = findViewById<EditText>(R.id.cardholder_name)
         val cardNumber = findViewById<EditText>(R.id.card_number)
         val cardExpiry = findViewById<EditText>(R.id.card_expiry)
@@ -51,17 +55,14 @@ class PaymentPage : AppCompatActivity() {
         addExpiryDateTextWatcher(cardExpiry)
 
         payButton.setOnClickListener {
-            // Get the current Firebase user
             val currentUser = FirebaseAuth.getInstance().currentUser
 
             if (currentUser != null) {
-                // Retrieve the user's email
                 val userEmail = currentUser.email
 
                 if (validatePaymentDetails(cardholderName, cardNumber, cardExpiry, cardCVC)) {
                     Toast.makeText(this, "Payment details are valid.", Toast.LENGTH_SHORT).show()
 
-                    // Now use the logged-in user's email
                     if (userEmail != null) {
                         saveBookingToSupabase(unitNumber, startDate, endDate, userEmail, unitImages, totalPrice)
                     } else {
@@ -73,7 +74,6 @@ class PaymentPage : AppCompatActivity() {
             }
         }
     }
-
 
     private fun validatePaymentDetails(
         cardholderName: EditText,
@@ -149,11 +149,14 @@ class PaymentPage : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Toast.makeText(this@PaymentPage, "Payment successful! Booking saved.", Toast.LENGTH_SHORT).show()
 
+                        // Trigger notification for booking confirmation
+                        triggerBookingConfirmedNotification("Booking Confirmed", "Your booking for unit $unitNumber is confirmed.")
+
                         // Close the PaymentPage activity
                         finish()
 
                         // Navigate to BookedPage Fragment
-                        val bookedPageFragment = ProfilePage()
+                        val bookedPageFragment = BookedPage()  // Change to appropriate fragment
                         replaceFragment(bookedPageFragment)
                     } else {
                         Toast.makeText(this@PaymentPage, "Error: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
@@ -166,7 +169,30 @@ class PaymentPage : AppCompatActivity() {
             })
     }
 
+    private fun triggerBookingConfirmedNotification(title: String, message: String) {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val channelId = "booking_channel"
 
+        // Create the notification channel for Android O or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "Booking Confirmations",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        // Build the notification
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setAutoCancel(true)
+
+        // Show the notification
+        notificationManager.notify(0, notificationBuilder.build())
+    }
 
     private fun addExpiryDateTextWatcher(expiryEditText: EditText) {
         expiryEditText.addTextChangedListener(object : TextWatcher {
