@@ -63,7 +63,7 @@ class PaymentPage : AppCompatActivity() {
 
                     // Now use the logged-in user's email
                     if (userEmail != null) {
-                        saveBookingToSupabase(unitNumber, startDate, endDate, userEmail, unitImages)
+                        saveBookingToSupabase(unitNumber, startDate, endDate, userEmail, unitImages, totalPrice)
                     } else {
                         Toast.makeText(this, "User email not found.", Toast.LENGTH_SHORT).show()
                     }
@@ -131,12 +131,13 @@ class PaymentPage : AppCompatActivity() {
         } else expYear == currentYear && expMonth >= currentMonth
     }
 
-    private fun saveBookingToSupabase(unitNumber: String, startDate: Long, endDate: Long, userEmail: String, unitImages: String) {
+    private fun saveBookingToSupabase(unitNumber: String, startDate: Long, endDate: Long, userEmail: String, unitImages: String, totalPrice: Long) {
         val bookingRequest = BookedRequest(
             unit_number = unitNumber,
             start_date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(startDate)),
             end_date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(endDate)),
-            user_email = userEmail
+            user_email = userEmail,
+            total_amount = totalPrice // Pass the total price here
         )
 
         val apiKey = SupabaseClient.getApiKey()
@@ -154,8 +155,7 @@ class PaymentPage : AppCompatActivity() {
                         // Navigate to BookedPage Fragment
                         val bookedPageFragment = ProfilePage()
                         replaceFragment(bookedPageFragment)
-                    }
-                    else {
+                    } else {
                         Toast.makeText(this@PaymentPage, "Error: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -165,6 +165,7 @@ class PaymentPage : AppCompatActivity() {
                 }
             })
     }
+
 
 
     private fun addExpiryDateTextWatcher(expiryEditText: EditText) {

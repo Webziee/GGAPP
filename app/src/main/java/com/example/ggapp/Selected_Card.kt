@@ -110,8 +110,6 @@ class Selected_Card : AppCompatActivity() {
             }
         }
 
-
-
         bookButton.setOnClickListener {
             // Navigate to Payment Page, passing booking details and unit info
             val intent = Intent(this, PaymentPage::class.java).apply {
@@ -176,8 +174,6 @@ class Selected_Card : AppCompatActivity() {
             unavailableDates.add(Pair(startMillis, endMillis))
         }
     }
-
-
 
     private fun convertDateToMillis(date: String): Long {
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

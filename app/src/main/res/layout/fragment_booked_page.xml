@@ -20,6 +20,14 @@
             android:layout_gravity="center"
             android:src="@drawable/bookedpagedescription"/>
 
+        <!-- Progress Bar for loading -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
         <!-- RecyclerView for displaying bookings -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/BookingsRecyclerView"

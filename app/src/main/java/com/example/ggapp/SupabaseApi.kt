@@ -51,5 +51,30 @@ interface SupabaseApi {
         @Header("Content-Type") contentType: String = "application/json"
     ): Call<List<BookedResponse>>
 
+    @PATCH("Booked")
+    fun cancelBooking(
+        @Query("id") id: String,
+        @Header("apikey") apiKey: String,
+        @Header("Authorization") authToken: String,
+        @Header("Content-Type") contentType: String = "application/json"
+    ): Call<Void>
+
+    @PATCH("Booked")
+    fun updateBookingStatus(
+        @Query("id") id: String,
+        @Header("apikey") apiKey: String,
+        @Header("Authorization") authToken: String,
+        @Body bookingStatus: Map<String, String>,  // Use a Map to send partial updates
+        @Header("Content-Type") contentType: String = "application/json"
+    ): Call<Void>
+
+    @PATCH("Booked")
+    fun updateRemovedStatus(
+        @Query("id") id: String,
+        @Header("apikey") apiKey: String,
+        @Header("Authorization") authToken: String,
+        @Body removedStatus: Map<String, Boolean>,
+        @Header("Content-Type") contentType: String = "application/json"
+    ): Call<Void>
 
 }

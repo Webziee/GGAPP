@@ -12,6 +12,7 @@ data class BookedRequest(
     val start_date: String,
     val end_date: String,
     val user_email: String,
+    val total_amount: Long,
 )
 
 data class BookedResponse(
@@ -22,6 +23,8 @@ data class BookedResponse(
     val user_email: String,
     val unitImages: String? = null,
     var payment_status: String? = null,
+    var isCanceled: Boolean = false,
+    val removed: Boolean = false
 )
 
 

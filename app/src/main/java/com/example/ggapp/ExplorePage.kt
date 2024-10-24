@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.ViewCompat
@@ -44,12 +45,15 @@ class ExplorePage : Fragment(), OnMapReadyCallback {
     private lateinit var allrooms: Button
     private lateinit var bookingsrecyclerView: RecyclerView
     private lateinit var bookingsAdapter: BookingsCardAdapter
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_explore_page, container, false)
+
+        progressBar = view.findViewById(R.id.progressBar)
 
         // Initialize mapView
         mapView = view.findViewById(R.id.map_view)
@@ -65,6 +69,9 @@ class ExplorePage : Fragment(), OnMapReadyCallback {
             showBottomSheet(booking)  // Show the bottom sheet when a booking is clicked
         }
         bookingsrecyclerView.adapter = bookingsAdapter
+
+        // Show the progress bar when loading data
+        progressBar.visibility = View.VISIBLE
 
         // Fetch bookings data from Supabase
         fetchBookings()
@@ -92,13 +99,19 @@ class ExplorePage : Fragment(), OnMapReadyCallback {
                     val bookingsList = response.body() ?: emptyList()
                     Log.d("SupabaseResponse", "Bookings List: $bookingsList")
                     bookingsAdapter.updateData(bookingsList)
+
+                    // Hide the progress bar once data is updated
+                    progressBar.visibility = View.GONE
+
                 } else {
                     Log.e("SupabaseError", "API call failed: ${response.errorBody()?.string()}")
+                    progressBar.visibility = View.GONE
                 }
             }
 
             override fun onFailure(call: Call<List<Bookings>>, t: Throwable) {
                 Log.e("SupabaseError", "API call failed: ${t.message}")
+                progressBar.visibility = View.GONE
             }
         })
     }
