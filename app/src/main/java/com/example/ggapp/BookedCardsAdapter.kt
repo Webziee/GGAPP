@@ -150,11 +150,16 @@ class BookedCardAdapter(
             }
             .create()
 
-        // Show the dialog before customizing the button colors
+        dialog.setOnShowListener {
+            // Ensure button colors are set when the dialog is shown
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(Color.RED)    // "Yes" button in red
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(Color.GRAY)   // "No" button in gray
+        }
+
+        // Show the dialog
         dialog.show()
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)    // "Yes" button in red
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY)   // "No" button in gray
     }
+
 
     fun removeBooking(booking: BookedResponse) {
         SupabaseClient.api.updateRemovedStatus(

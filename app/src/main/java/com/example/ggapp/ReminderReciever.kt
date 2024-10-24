@@ -33,7 +33,7 @@ class ReminderReceiver : BroadcastReceiver() {
         val notificationBuilder = NotificationCompat.Builder(context!!, channelId)
             .setContentTitle("Booking Reminder")
             .setContentText("Don't forget your booking is coming up!")
-            .setSmallIcon(R.drawable.ic_notification)
+            .setSmallIcon(R.drawable.logo)
             .setAutoCancel(true)
 
         notificationManager.notify(bookingId.hashCode(), notificationBuilder.build())

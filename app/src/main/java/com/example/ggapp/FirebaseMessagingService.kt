@@ -24,7 +24,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notificationBuilder = NotificationCompat.Builder(this, "booking_channel")
             .setContentTitle(title)
             .setContentText(body)
-            .setSmallIcon(R.drawable.ic_notification)
+            .setSmallIcon(R.drawable.logo)
             .setAutoCancel(true)
 
         // If Android O or higher, create a notification channel
