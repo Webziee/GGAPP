@@ -56,14 +56,6 @@ class SignUp : AppCompatActivity() {
         // Initialize Firebase Authentication
         auth = FirebaseAuth.getInstance()
 
-        // Check if user is already signed in
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            Log.d("Authentication", "User is already signed in: ${currentUser.email}")
-        } else {
-            Log.e("Authentication", "No user signed in")
-        }
-
         // Initialize UI
         initializeViews()
 
@@ -92,6 +84,19 @@ class SignUp : AppCompatActivity() {
         // Handle switching between Log In and Sign Up layouts
         signuptext.setOnClickListener { switchToSignUp() }
         signintext.setOnClickListener { switchToSignIn() }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        // Check if user is already signed in and navigate to the main page
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            Log.d("Authentication", "User is already signed in: ${currentUser.email}")
+            navigateToMainPage()  // Navigate to main page if user is signed in
+        } else {
+            Log.e("Authentication", "No user signed in")
+        }
     }
 
     private fun initializeViews() {
