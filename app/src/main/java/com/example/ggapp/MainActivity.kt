@@ -4,15 +4,11 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.example.ggapp.databinding.ActivityMainBinding
-//import com.example.ggapp.explore.ExplorePage
-//import com.example.ggapp.bookings.BookedPage
-//import com.example.ggapp.profile.ProfilePage
 import com.example.goergesgraceapp.ExplorePage
 import com.google.firebase.auth.FirebaseAuth
 
@@ -28,9 +24,6 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1)
         }
-
-
-
 
         // Inflate the binding
         binding = ActivityMainBinding.inflate(layoutInflater)
