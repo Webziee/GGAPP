@@ -8,6 +8,8 @@ import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -17,6 +19,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import androidx.biometric.BiometricManager
 
 class SignUp : AppCompatActivity() {
 
@@ -33,6 +36,9 @@ class SignUp : AppCompatActivity() {
     private lateinit var signuppassword: TextInputEditText
     private lateinit var signupconfirmpassword: TextInputEditText
     private lateinit var signup_buttom: Button
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
+
 
     private lateinit var progressBar: ProgressBar
     private lateinit var googleSignInButton: com.google.android.gms.common.SignInButton
@@ -93,7 +99,8 @@ class SignUp : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             Log.d("Authentication", "User is already signed in: ${currentUser.email}")
-            navigateToMainPage()  // Navigate to main page if user is signed in
+            //Biometrics Logic Goes here so the user can login easily with their fingerprint
+            setupBiometricPrompt()
         } else {
             Log.e("Authentication", "No user signed in")
         }
@@ -224,5 +231,53 @@ class SignUp : AppCompatActivity() {
         signup_buttom.visibility = View.GONE
         signuptext.visibility = View.VISIBLE
         signintext.visibility = View.GONE
+    }
+
+    /*The following method was inspired by a youtube video, reference below
+    Lackner, P., 2024. Youtube, How to Implement Biometric Auth in Your Android App. [Online]
+    Available at: https://www.youtube.com/watch?v=_dCRQ9wta-I
+    [Accessed 12 October 2024].*/
+    private fun isBiometricAvailable(): Boolean {
+        val biometricManager = BiometricManager.from(this)
+        return when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
+            BiometricManager.BIOMETRIC_SUCCESS -> true
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                Toast.makeText(this, "No Biometric Hardware Available", Toast.LENGTH_SHORT).show()
+                false
+            }
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                Toast.makeText(this, "No Biometric Credentials Enrolled", Toast.LENGTH_SHORT).show()
+                false
+            }
+            else -> false
+        }
+    }
+    /*The following method was inspired by a youtube video, reference below
+    Lackner, P., 2024. Youtube, How to Implement Biometric Auth in Your Android App. [Online]
+    Available at: https://www.youtube.com/watch?v=_dCRQ9wta-I
+    [Accessed 12 October 2024].*/
+    private fun setupBiometricPrompt()
+    {
+        if (!isBiometricAvailable()) return
+
+        val executor = ContextCompat.getMainExecutor(this)
+        biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                Log.d("BiometricAuth", "Authentication successful!")
+                navigateToMainPage()
+            }
+
+            override fun onAuthenticationFailed() {
+                Toast.makeText(this@SignUp, "Biometric authentication failed. Try again.", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric Authentication")
+            .setSubtitle("Log in using your fingerprint or face")
+            .setNegativeButtonText("Use Password")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
     }
 }

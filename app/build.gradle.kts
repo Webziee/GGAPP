@@ -97,6 +97,13 @@ dependencies {
     //push noyifications firebase
     implementation ("com.google.firebase:firebase-messaging")
 
+    /*
+    The following code is used for biometric authentication, this code was inspired from the following video:
+    Lackner, P., 2024. Youtube, How to Implement Biometric Auth in Your Android App. [Online]
+    Available at: https://www.youtube.com/watch?v=_dCRQ9wta-I
+    [Accessed 12 October 2024].*/
+    implementation("androidx.biometric:biometric:1.1.0")
+
     // Firebase Authentication (keep only one `firebase-auth` dependency)
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-auth:21.0.1")
