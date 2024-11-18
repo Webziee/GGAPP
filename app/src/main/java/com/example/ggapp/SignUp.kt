@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import androidx.biometric.BiometricManager
 
+
 class SignUp : AppCompatActivity() {
 
     // SignIn / SignUp UI elements
