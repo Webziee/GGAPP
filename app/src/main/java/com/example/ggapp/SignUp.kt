@@ -24,6 +24,16 @@ import androidx.biometric.BiometricManager
 
 class SignUp : AppCompatActivity() {
 
+    /*The following code integrated google SSO with Firebase, this code was inspired by the following videos
+    * EasyTutorial, 2024. Youtube, How to Integrate Google Sign In in Android | 2024. [Online]
+    Available at: https://www.youtube.com/watch?v=suVgcrPwYKQ
+    [Accessed 04 October 2024].
+    *
+    TechWorld, 2023. Youtubre, SIGN-IN WITH GOOGLE || FIREBASE || ANDROID STUDIO KOTLIN TUTORIAL || STEP BY STEP IMPLEMENTATION. [Online]
+    Available at: https://www.youtube.com/watch?v=H_maapn4Q3Q
+    [Accessed 05 October 2024].
+
+*/
     // SignIn / SignUp UI elements
     private lateinit var signinlayout: LinearLayout
     private lateinit var signintext: TextView
@@ -47,7 +57,7 @@ class SignUp : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    // Google Sign-In
+    // Google Sign-In: (EasyTutorial, 2024)
     private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +76,7 @@ class SignUp : AppCompatActivity() {
         // Initialize UI
         initializeViews()
 
-        // Initialize Google Sign-In options
+        // Initialize Google Sign-In options (EasyTutorial, 2024)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id)) // Ensure this matches your Firebase project
             .requestEmail()

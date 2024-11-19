@@ -6,6 +6,10 @@ import Bookings
 import retrofit2.Call
 import retrofit2.http.*
 
+/*Supabase Api code inspired from the following video:
+* Shukert, T., 2023. Youtube, Getting started with Android and Supabase. [Online]
+Available at: https://www.youtube.com/watch?v=_iXUVJ6HTHU
+[Accessed 02 October 2024].*/
 interface SupabaseApi {
 
     // Method to get bookings from the "Bookings" table

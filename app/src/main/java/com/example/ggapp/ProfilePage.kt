@@ -12,6 +12,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfilePage : Fragment() {
 
+    /*Code attribution for the following firebase integration and use cases:
+    * minikate, 2019. Stack Overflow. [Online]
+    Available at: https://stackoverflow.com/questions/54784101/firebase-android-get-current-user-email
+    [Accessed 13 September 2024].*/
+    
     private lateinit var userEmailTextView: TextView
     private lateinit var userNameTextView: TextView
     private lateinit var phoneTextView: TextView

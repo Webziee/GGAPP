@@ -17,7 +17,7 @@ class fullscreen : AppCompatActivity() {
         val imageView = findViewById<ImageView>(R.id.fullScreenImageView)
         val imageUrl = intent.getStringExtra("imageUrl")
 
-        // Load the image using Picasso or another image loader
+        // Load the image using Picasso or another image loader, (CodexCreator, 2023).
         if (imageUrl != null) {
             Picasso.get().load(imageUrl).into(imageView)
         }

@@ -54,6 +54,11 @@ class PaymentPage : AppCompatActivity() {
         // Add slash automatically when typing expiry date
         addExpiryDateTextWatcher(cardExpiry)
 
+        /*The following code integrates with firebase to get the current user, this code was taken from the
+        * following source:
+        * minikate, 2019. Stack Overflow. [Online]
+        Available at: https://stackoverflow.com/questions/54784101/firebase-android-get-current-user-email
+        [Accessed 13 September 2024].*/
         payButton.setOnClickListener {
             val currentUser = FirebaseAuth.getInstance().currentUser
 
@@ -131,6 +136,11 @@ class PaymentPage : AppCompatActivity() {
         } else expYear == currentYear && expMonth >= currentMonth
     }
 
+    /*The following code saves bookings to supabase. The method of saving the data
+* was inspired by the following video:
+* Shukert, T., 2023. Youtube, Getting started with Android and Supabase. [Online]
+Available at: https://www.youtube.com/watch?v=_iXUVJ6HTHU
+[Accessed 02 October 2024].*/
     private fun saveBookingToSupabase(unitNumber: String, startDate: Long, endDate: Long, userEmail: String, unitImages: String, totalPrice: Long) {
         val bookingRequest = BookedRequest(
             unit_number = unitNumber,
@@ -168,7 +178,11 @@ class PaymentPage : AppCompatActivity() {
                 }
             })
     }
-
+/*The following code was inspired by the following youtube video:
+* SNATech, 2022. Youtube, How to send Android Push Notifications with Firebase Cloud Messaging. [Online]
+Available at: https://www.youtube.com/watch?v=GDxj8KTmLrI
+[Accessed 04 October 2024].
+ */
     private fun triggerBookingConfirmedNotification(title: String, message: String) {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelId = "booking_channel"

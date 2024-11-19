@@ -31,7 +31,11 @@ class BookingBottomSheet(private val booking: Bookings) : BottomSheetDialogFragm
         bottomSheetsleeper.text = "${booking.sleeper} Sleeper"
 
 
-        // Load the image using Picasso or a placeholder if no image exists
+        /*Load the image using Picasso or a placeholder if no image exists. This code was
+        * inspired by the following video:
+        * CodexCreator, 2023. Youtube, How to Load Images From URL Using Picasso in Android Studio. [Online]
+          Available at: https://www.youtube.com/watch?v=4o6MGyrKBgg
+          [Accessed 03 October 2024].*/
         if (!booking.unitImages.isNullOrEmpty()) {
             Picasso.get().load(booking.unitImages).into(bottomSheetImage)
         } else {

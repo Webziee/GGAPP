@@ -8,7 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ggapp.R
 import com.example.goergesgraceapp.ExplorePage
 import com.squareup.picasso.Picasso
-
+/*The following code for using Lambda function to handle clicks was inspired by the following video:
+Kumar, J., 2017. Youtube, Lambda Function in Android for Click Listeners. [Online]
+Available at: https://www.youtube.com/watch?v=saZhriuOTqk
+[Accessed 04 October 2024].
+*/
 class BookingsCardAdapter(
     private var bookingsList: List<Bookings>,
     private val onBookingClick: (Bookings) -> Unit // Lambda function to handle clicks

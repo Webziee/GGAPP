@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
-
 class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val bookingId = intent?.getStringExtra("booking_id")
@@ -15,7 +14,10 @@ class ReminderReceiver : BroadcastReceiver() {
         // Show notification for the booking reminder
         showNotification(context, bookingId)
     }
-
+    /*The following code shows thr push notification to the user:
+    * SNATech, 2022. Youtube, How to send Android Push Notifications with Firebase Cloud Messaging. [Online]
+    Available at: https://www.youtube.com/watch?v=GDxj8KTmLrI
+    [Accessed 04 October 2024].*/
     private fun showNotification(context: Context?, bookingId: String?) {
         val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelId = "booking_channel"

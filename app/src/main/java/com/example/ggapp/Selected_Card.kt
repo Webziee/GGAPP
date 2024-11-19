@@ -60,6 +60,11 @@ class Selected_Card : AppCompatActivity() {
         // Fetch unavailable dates from Supabase for the current unit
         fetchUnavailableDates(unitNumber)
 
+        /*The following code makes use of the calendar view to set the date (used for user date selection)
+        * and was inspired by the following video:
+        * TechinalCoding, 2023. Youtube, How to use Date and Time Picker Dialogs in android || Android Studio Tutorial. [Online]
+        Available at: https://www.youtube.com/watch?v=guTycx3L9I4&t=237s
+        [Accessed 04 October 2024].*/
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = Calendar.getInstance().apply {
                 set(year, month, dayOfMonth)
@@ -144,6 +149,11 @@ class Selected_Card : AppCompatActivity() {
         return true // No overlap found, date range is available
     }
 
+    /*The following code fetches dates from supabase. The method of fetching the data
+* was inspired by the following video:
+* Shukert, T., 2023. Youtube, Getting started with Android and Supabase. [Online]
+Available at: https://www.youtube.com/watch?v=_iXUVJ6HTHU
+[Accessed 02 October 2024].*/
     private fun fetchUnavailableDates(unitNumber: String) {
         SupabaseClient.api.getBookedDates(
             SupabaseClient.getApiKey(), // API key
@@ -175,6 +185,11 @@ class Selected_Card : AppCompatActivity() {
         }
     }
 
+    /*The following code converts date to millis
+* and was inspired by the following video:
+* TechinalCoding, 2023. Youtube, How to use Date and Time Picker Dialogs in android || Android Studio Tutorial. [Online]
+Available at: https://www.youtube.com/watch?v=guTycx3L9I4&t=237s
+[Accessed 04 October 2024].*/
     private fun convertDateToMillis(date: String): Long {
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return try {

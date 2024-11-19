@@ -68,6 +68,11 @@ class BookedPage : Fragment() {
         currentUser?.email?.let { fetchPaidBookings(it) }
     }
 
+    /*The following code makes use of the alarmManager for push notifications, this code was inspired
+    * by the following video:
+    * EasyCodes, 2023. Youtube ,How to Send Notification in Android. [Online]
+      Available at: https://www.youtube.com/watch?v=vyt20Gg2Ckg
+      [Accessed 01 October 2024].*/
     private fun checkAndRequestExactAlarmPermission() {
         val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -88,6 +93,11 @@ class BookedPage : Fragment() {
         setRemindersForBookings()  // Schedule reminders after ensuring permission is granted
     }
 
+    /*The following code fetches paid bookings from supabase. The method of fetching the data
+    * was inspired by the following video:
+    * Shukert, T., 2023. Youtube, Getting started with Android and Supabase. [Online]
+      Available at: https://www.youtube.com/watch?v=_iXUVJ6HTHU
+      [Accessed 02 October 2024].*/
     private fun fetchPaidBookings(userEmail: String) {
         progressBar.visibility = View.VISIBLE
 
@@ -119,6 +129,11 @@ class BookedPage : Fragment() {
         })
     }
 
+    /*The following code fetches the images for bookings from supabase. The method of fetching the data
+* was inspired by the following video:
+* Shukert, T., 2023. Youtube, Getting started with Android and Supabase. [Online]
+  Available at: https://www.youtube.com/watch?v=_iXUVJ6HTHU
+  [Accessed 02 October 2024].*/
     private fun fetchImagesForBookings(bookedList: List<BookedResponse>) {
         SupabaseClient.api.getBookings(
             apiKey = SupabaseClient.getApiKey(),
@@ -148,6 +163,11 @@ class BookedPage : Fragment() {
         })
     }
 
+    /*The following code cancels a bookings from supabase. The method of removing the data
+* was inspired by the following video:
+* Shukert, T., 2023. Youtube, Getting started with Android and Supabase. [Online]
+  Available at: https://www.youtube.com/watch?v=_iXUVJ6HTHU
+  [Accessed 02 October 2024].*/
     private fun cancelBooking(booking: BookedResponse) {
         SupabaseClient.api.updateBookingStatus(
             id = "eq.${booking.id}",
@@ -187,6 +207,7 @@ class BookedPage : Fragment() {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY)
     }
+
 
     private fun scheduleBookingReminder(context: Context, bookingTime: Long, bookingId: String) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

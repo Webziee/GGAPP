@@ -9,6 +9,12 @@ import androidx.core.content.ContextCompat.getSystemService
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
+
+/*The following code makes use of firebase for sending push notifications. this code was
+* inspired by the following video:
+* SNATech, 2022. Youtube, How to send Android Push Notifications with Firebase Cloud Messaging. [Online]
+Available at: https://www.youtube.com/watch?v=GDxj8KTmLrI
+[Accessed 04 October 2024].*/
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

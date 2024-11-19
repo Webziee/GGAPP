@@ -22,6 +22,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
+/*The following code makes use of a Mutable list for modifying data, this code was inspired
+* by the following video:
+    DevLanding, 2017. Youtube, Android Kotlin MutableList VS List. [Online]
+    Available at: https://www.youtube.com/watch?v=_SgmgA7Kz2g
+    [Accessed 01 October 2024].
+*/
 class BookedCardAdapter(
     var bookedList: MutableList<BookedResponse>, // Use MutableList for modifying data
     private val onBookingClick: (BookedResponse) -> Unit, // Lambda function to handle clicks

@@ -104,7 +104,7 @@ dependencies {
     [Accessed 12 October 2024].*/
     implementation("androidx.biometric:biometric:1.1.0")
 
-    // Firebase Authentication (keep only one `firebase-auth` dependency)
+    // Firebase Authentication (keep only one `firebase-auth` dependency) (TechWorld, 2023)
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-auth:21.0.1")
     implementation("com.google.firebase:firebase-storage:20.0.0")

@@ -36,7 +36,7 @@ import retrofit2.Response
 
 class ExplorePage : Fragment(), OnMapReadyCallback {
 
-    // Google Maps
+    // Google Maps Integration (CodingTutorials, 2023)
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
 
@@ -87,8 +87,11 @@ class ExplorePage : Fragment(), OnMapReadyCallback {
         return view
     }
 
-
-    // Fetch bookings from Supabase
+    /*The following code Fetches bookings from Supabase. The method of fetching the data
+    * was inspired by the following video:
+    * Shukert, T., 2023. Youtube, Getting started with Android and Supabase. [Online]
+    Available at: https://www.youtube.com/watch?v=_iXUVJ6HTHU
+    [Accessed 02 October 2024].*/
     private fun fetchBookings() {
         SupabaseClient.api.getBookings(
             apiKey = SupabaseClient.getApiKey(),
@@ -177,7 +180,10 @@ class ExplorePage : Fragment(), OnMapReadyCallback {
         bottomSheetDialog.show()
     }
 
-    // Google Maps
+    /*Google Maps integration was inspired by the following video:
+    * CodingTutorials, 2023. Youtube, Google Map in Android Studio | Google Map API Tutorial. [Online]
+    Available at: https://www.youtube.com/watch?v=_gpreGNtNCM
+    [Accessed 04 October 2024].*/
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
 
