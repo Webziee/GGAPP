@@ -1,7 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.GGAPP" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <!-- Base application theme for dark mode -->
+    <style name="Base.Theme.GGAPP" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/black</item> <!-- Toolbar background color -->
+        <item name="colorPrimaryDark">@color/black</item> <!-- Status bar color -->
+        <item name="colorSurface">@color/darkGray</item> <!-- Background surfaces -->
+        <item name="android:textColor">@color/white</item> <!-- Default text color -->
     </style>
+
+    <style name="Theme.GGAPP" parent="Base.Theme.GGAPP" />
 </resources>

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.ggapp.databinding.ActivityMainBinding
 import com.example.goergesgraceapp.ExplorePage
 import com.google.firebase.auth.FirebaseAuth
+import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         //push notifications permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

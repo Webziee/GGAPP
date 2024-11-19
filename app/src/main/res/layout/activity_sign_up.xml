@@ -211,7 +211,7 @@
 
         <Button
             android:id="@+id/signInBtn"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/common_google_signin_btn_text_light_default"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -221,13 +221,14 @@
             android:elevation="15dp"
             android:gravity="center"
             android:text="@string/sign_in"
+            android:textColor="@color/white"
             android:textAllCaps="false"
             android:textSize="17sp"
             />
 
         <Button
             android:id="@+id/signUpBtn"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/common_google_signin_btn_text_light_default"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -237,6 +238,7 @@
             android:elevation="15dp"
             android:gravity="center"
             android:text="@string/sign_up"
+            android:textColor="@color/white"
             android:textSize="17sp"
             android:visibility="gone"/>
 

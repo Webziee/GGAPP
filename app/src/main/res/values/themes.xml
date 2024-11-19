@@ -3,6 +3,8 @@
     <style name="Base.Theme.GGAPP" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/transparentColor</item> <!-- Toolbar background color -->
         <item name="colorPrimaryDark">@color/transparentColor</item> <!-- Status bar color -->
+        <item name="colorSurface">@color/white</item> <!-- Background surfaces -->
+        <item name="android:textColor">@color/black</item> <!-- Default text color -->
     </style>
 
     <style name="Theme.GGAPP" parent="Base.Theme.GGAPP" />
