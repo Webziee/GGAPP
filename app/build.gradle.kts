@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ggapp"
+    namespace = "com.guesthouse.ggapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.ggapp"
+        applicationId = "com.guesthouse.ggapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

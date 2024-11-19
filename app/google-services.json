@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:341759497391:android:6372cb4667e770c543b05a",
         "android_client_info": {
-          "package_name": "com.example.ggapp"
+          "package_name": "com.guesthouse.ggapp"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "341759497391-189hr9luj94c5mu02etruudiprsv4hl6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.ggapp",
+            "package_name": "com.guesthouse.ggapp",
             "certificate_hash": "a17d59682e12855d833a94f6404f121307e4f8fd"
           }
         },
