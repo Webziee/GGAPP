@@ -10,21 +10,33 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # Check out the repository code
       - uses: actions/checkout@v4
 
+      # Set up JDK
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
 
+      # Grant execute permission for gradlew
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # Build the Android project
       - name: Build with Gradle
         run: ./gradlew build
 
+      # Initialize CodeQL
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'java'
+
+      # Run CodeQL analysis
       - name: Run CodeQL analysis
         uses: github/codeql-action/analyze@v2
         with:
