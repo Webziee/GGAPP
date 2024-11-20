@@ -47,31 +47,16 @@ jobs:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
-      # Static Code Analysis with SonarCloud
-      - name: Run SonarCloud Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew sonarqube \
-          -Dsonar.projectKey=your_project_key \
-          -Dsonar.organization=your_organization
-
-      # Install OWASP Dependency-Check CLI
-      - name: Install OWASP Dependency-Check
-        run: |
-          wget https://github.com/jeremydmiller/owasp-dependency-check-action/releases/download/v6.3.0/dependency-check-6.3.0-release.zip
-          unzip dependency-check-6.3.0-release.zip
-
-      # Run OWASP Dependency-Check
+      # Security Testing with OWASP Dependency-Check
       - name: Run OWASP Dependency-Check
-        run: |
-          ./dependency-check/bin/dependency-check.sh --project "your_project_name" \
-            --scan ./ \
-            --out ./dependency-check-report \
-            --format "HTML"
+        uses: dependency-check/github-action@v3
+        with:
+          format: "HTML"
+          output-directory: "dependency-check-report"
 
-      # Upload OWASP Dependency-Check Report
+      # Upload OWASP Dependency-Check Report (optional)
       - name: Upload Dependency-Check Report
         uses: actions/upload-artifact@v3
         with:
           name: dependency-check-report
-          path: dependency-check-report/*
+          path: dependency-check-report/
