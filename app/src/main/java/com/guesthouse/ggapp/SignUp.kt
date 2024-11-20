@@ -32,7 +32,6 @@ class SignUp : AppCompatActivity() {
     TechWorld, 2023. Youtubre, SIGN-IN WITH GOOGLE || FIREBASE || ANDROID STUDIO KOTLIN TUTORIAL || STEP BY STEP IMPLEMENTATION. [Online]
     Available at: https://www.youtube.com/watch?v=H_maapn4Q3Q
     [Accessed 05 October 2024].
-
 */
     // SignIn / SignUp UI elements
     private lateinit var signinlayout: LinearLayout
