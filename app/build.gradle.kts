@@ -8,9 +8,9 @@ plugins {
 
 sonarqube {
     properties {
-        property ("sonar.projectKey", "your_project_key")
-        property ("sonar.organization", "your_organization_key") // for SonarCloud
-        property ("sonar.host.url", "https://sonarcloud.io") // or your SonarQube server URL
+        property ("sonar.projectKey", "Webziee_GGAPP")
+        property ("sonar.organization", "webziee") // for SonarCloud
+        property ("sonar.host.url", "https://sonarcloud.io/summary/overall?id=Webziee_GGAPP") // or your SonarQube server URL
         property ("sonar.login", "TOKEN") // Optional for SonarCloud
     }
 }
