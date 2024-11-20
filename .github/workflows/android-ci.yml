@@ -49,7 +49,7 @@ jobs:
 
       # Security Testing with OWASP Dependency-Check
       - name: Run OWASP Dependency-Check
-        uses: dependency-check/github-action@v3
+        uses: OWASP/github-action-dependency-check@v3
         with:
           format: "HTML"
           output-directory: "dependency-check-report"
