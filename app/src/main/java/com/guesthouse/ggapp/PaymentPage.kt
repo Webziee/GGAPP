@@ -80,6 +80,11 @@ class PaymentPage : AppCompatActivity() {
         }
     }
 
+    /*the following method validates the users payment details, this code was taken from
+    * the following video:
+    * Media, G., 2023. Youtube, Credit Card in Kotlin - Android Studio Tutorial | #2023 #kotlintutorial. [Online]
+    Available at: https://www.youtube.com/watch?v=txlvj2o0sGk
+    [Accessed 05 October 2024].*/
     private fun validatePaymentDetails(
         cardholderName: EditText,
         cardNumber: EditText,
