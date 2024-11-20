@@ -66,16 +66,16 @@ class PaymentPage : AppCompatActivity() {
                 val userEmail = currentUser.email
 
                 if (validatePaymentDetails(cardholderName, cardNumber, cardExpiry, cardCVC)) {
-                    Toast.makeText(this, "Payment details are valid.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.s1), Toast.LENGTH_SHORT).show()
 
                     if (userEmail != null) {
                         saveBookingToSupabase(unitNumber, startDate, endDate, userEmail, unitImages, totalPrice)
                     } else {
-                        Toast.makeText(this, "User email not found.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.s2), Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
-                Toast.makeText(this, "No user is logged in.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.s3), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -93,33 +93,33 @@ class PaymentPage : AppCompatActivity() {
     ): Boolean {
         // Validate cardholder's name (non-empty)
         if (cardholderName.text.toString().isEmpty()) {
-            cardholderName.error = "Cardholder name is required"
+            cardholderName.error = getString(R.string.s4)
             return false
         }
 
         // Validate card number (should be 16 digits)
         val cardNumberPattern = Pattern.compile("\\d{16}")
         if (!cardNumberPattern.matcher(cardNumber.text.toString()).matches()) {
-            cardNumber.error = "Card number must be 16 digits"
+            cardNumber.error = getString(R.string.s5)
             return false
         }
 
         // Validate expiry date (should be in MM/YY format and not expired)
         val expiryPattern = Pattern.compile("(0[1-9]|1[0-2])/([0-9]{2})")
         if (!expiryPattern.matcher(cardExpiry.text.toString()).matches()) {
-            cardExpiry.error = "Invalid expiry date format. Use MM/YY"
+            cardExpiry.error = getString(R.string.s6)
             return false
         }
 
         if (!isValidExpiryDate(cardExpiry.text.toString())) {
-            cardExpiry.error = "Card has expired"
+            cardExpiry.error = getString(R.string.s7)
             return false
         }
 
         // Validate CVC (3 or 4 digits)
         val cvcPattern = Pattern.compile("\\d{3,4}")
         if (!cvcPattern.matcher(cardCVC.text.toString()).matches()) {
-            cardCVC.error = "CVC must be 3 or 4 digits"
+            cardCVC.error = getString(R.string.s8)
             return false
         }
 
@@ -162,10 +162,10 @@ Available at: https://www.youtube.com/watch?v=_iXUVJ6HTHU
             .enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@PaymentPage, "Payment successful! Booking saved.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@PaymentPage, getString(R.string.s9), Toast.LENGTH_SHORT).show()
 
                         // Trigger notification for booking confirmation
-                        triggerBookingConfirmedNotification("Booking Confirmed", "Your booking for unit $unitNumber is confirmed.")
+                        triggerBookingConfirmedNotification(getString(R.string.ss9), getString(R.string.s10) + unitNumber + getString(R.string.s11))
 
                         // Close the PaymentPage activity
                         finish()
@@ -174,12 +174,12 @@ Available at: https://www.youtube.com/watch?v=_iXUVJ6HTHU
                         val bookedPageFragment = BookedPage()  // Change to appropriate fragment
                         replaceFragment(bookedPageFragment)
                     } else {
-                        Toast.makeText(this@PaymentPage, "Error: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@PaymentPage, getString(R.string.s12) + response.errorBody()?.string(), Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(this@PaymentPage, "Failed to save booking.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@PaymentPage, getString(R.string.s13), Toast.LENGTH_SHORT).show()
                 }
             })
     }
@@ -196,7 +196,7 @@ Available at: https://www.youtube.com/watch?v=GDxj8KTmLrI
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
-                "Booking Confirmations",
+                getString(R.string.s14),
                 NotificationManager.IMPORTANCE_HIGH
             )
             notificationManager.createNotificationChannel(channel)

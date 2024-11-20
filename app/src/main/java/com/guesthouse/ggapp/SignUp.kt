@@ -88,7 +88,7 @@ class SignUp : AppCompatActivity() {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 handleSignInResult(task)
             } else {
-                Toast.makeText(this, "Google Sign-In canceled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.s22), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -147,7 +147,7 @@ class SignUp : AppCompatActivity() {
             val account = completedTask.getResult(ApiException::class.java)
             firebaseAuthWithGoogle(account?.idToken)
         } catch (e: ApiException) {
-            Toast.makeText(this, "Google Sign-In failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.s23) +e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -163,7 +163,7 @@ class SignUp : AppCompatActivity() {
                         Log.d("GoogleSignIn", "User signed in with email: $userEmail")
                         navigateToMainPage()
                     } else {
-                        showToast("Google authentication failed: ${task.exception?.message}")
+                        showToast(getString(R.string.s24) + task.exception?.message)
                     }
                 }
         }
@@ -181,14 +181,14 @@ class SignUp : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     progressBar.visibility = View.GONE
                     if (task.isSuccessful) {
-                        showToast("Registration successful!")
+                        showToast(getString(R.string.s25))
                         navigateToMainPage()
                     } else {
-                        showToast("Registration failed: ${task.exception?.message}")
+                        showToast(getString(R.string.s26) + task.exception?.message)
                     }
                 }
         } else {
-            showToast("Please fill in all fields correctly")
+            showToast(getString(R.string.s27))
         }
     }
 
@@ -207,11 +207,11 @@ class SignUp : AppCompatActivity() {
                         Log.d("SignIn", "User signed in with email: $userEmail")
                         navigateToMainPage()
                     } else {
-                        showToast("Sign-in failed: ${task.exception?.message}")
+                        showToast(getString(R.string.s28) +task.exception?.message)
                     }
                 }
         } else {
-            showToast("Please fill in both fields")
+            showToast(getString(R.string.s29))
         }
     }
 
@@ -252,11 +252,11 @@ class SignUp : AppCompatActivity() {
         return when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
             BiometricManager.BIOMETRIC_SUCCESS -> true
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                Toast.makeText(this, "No Biometric Hardware Available", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.s30), Toast.LENGTH_SHORT).show()
                 false
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                Toast.makeText(this, "No Biometric Credentials Enrolled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.s31), Toast.LENGTH_SHORT).show()
                 false
             }
             else -> false
@@ -278,14 +278,14 @@ class SignUp : AppCompatActivity() {
             }
 
             override fun onAuthenticationFailed() {
-                Toast.makeText(this@SignUp, "Biometric authentication failed. Try again.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SignUp, getString(R.string.s32), Toast.LENGTH_SHORT).show()
             }
         })
 
         promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Biometric Authentication")
-            .setSubtitle("Log in using your fingerprint or face")
-            .setNegativeButtonText("Use Password")
+            .setTitle(getString(R.string.s33))
+            .setSubtitle(getString(R.string.s34))
+            .setNegativeButtonText(getString(R.string.s35))
             .build()
 
         biometricPrompt.authenticate(promptInfo)

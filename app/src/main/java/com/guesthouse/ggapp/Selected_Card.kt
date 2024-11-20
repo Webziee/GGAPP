@@ -80,7 +80,7 @@ class Selected_Card : AppCompatActivity() {
                         startDate = selectedDate
                         selectedDatesTextView.text = dateFormatter.format(selectedDate)
                     } else {
-                        Toast.makeText(this, "This date is not available.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.s19), Toast.LENGTH_SHORT).show()
                     }
                 }
                 endDate == null && selectedDate >= startDate!! -> {
@@ -104,12 +104,12 @@ class Selected_Card : AppCompatActivity() {
                         totalPriceTextView.text = "Total Price: R$totalPrice"
                         bookButton.isEnabled = true
                     } else {
-                        Toast.makeText(this, "Part of this date range is not available.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, getString(R.string.s20),Toast.LENGTH_LONG).show()
                         resetDateSelection()
                     }
                 }
                 else -> {
-                    Toast.makeText(this, "Invalid date selection. Please select the dates again.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.s21), Toast.LENGTH_SHORT).show()
                     resetDateSelection()
                 }
             }

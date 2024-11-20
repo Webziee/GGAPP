@@ -35,6 +35,50 @@
     <string name="cancel_booking">Cancel Booking</string>
     <string name="logo">logo</string>
     <string name="background">background</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+
+    <!--In App Text Displayed Strings-->
+    <string name="s1">Payment details are valid.</string>
+    <string name="s2">User email not found.</string>
+    <string name="s3">No user is logged in.</string>
+    <string name="s4">Cardholder name is required</string>
+    <string name="s5">Card number must be 16 digits</string>
+    <string name="s6">Invalid expiry date format. Use MM/YY</string>
+    <string name="s7">Card has expired</string>
+    <string name="s8">CVC must be 3 or 4 digits</string>
+    <string name="s9">Payment successful! Booking saved.</string>
+    <string name="ss9">Booking Confirmed</string>
+    <string name="s10">Your booking for unit </string>
+    <string name="s11"> is confirmed.</string>
+
+    <string name="s12">Error: </string>
+    <string name="s13">Failed to save booking.</string>
+    <string name="s14">Booking Confirmations</string>
+    <string name="s15">No user signed in</string>
+
+    <string name="s16">Phone number cannot be empty</string>
+    <string name="s17">Phone number updated successfully</string>
+    <string name="s18">Failed to update phone number</string>
+    <string name="s19">"This date is not available."</string>
+    <string name="s20">Part of this date range is not available.</string>
+    <string name="s21">Invalid date selection. Please select the dates again.</string>
+    <string name="s22">Google Sign-In canceled</string>
+    <string name="s23">Google Sign-In failed: </string>
+    <string name="s24">Google authentication failed: </string>
+    <string name="s25">Registration successful!</string>
+    <string name="s26">Registration failed: </string>
+    <string name="s27">Please fill in all fields correctly</string>
+    <string name="s28">Sign-in failed: </string>
+    <string name="s29">Please fill in both fields</string>
+    <string name="s30">No Biometric Hardware Available</string>
+    <string name="s31">No Biometric Credentials Enrolled</string>
+    <string name="s32">"Biometric authentication failed. Try again."</string>
+
+    <string name="s33">Biometric Authentication</string>
+    <string name="s34">Log in using your fingerprint or face</string>
+    <string name="s35">Use Password</string>
+
+    <string name="s36">Cancel Booking</string>
 </resources>
-
-

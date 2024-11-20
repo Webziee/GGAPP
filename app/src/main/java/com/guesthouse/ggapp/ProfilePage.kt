@@ -83,7 +83,7 @@ class ProfilePage : Fragment() {
                     phoneTextView.text = phoneNumber ?: "Not Available"
                 }
         } else {
-            Toast.makeText(context, "No user signed in", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.s15), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -102,7 +102,7 @@ class ProfilePage : Fragment() {
         val newPhoneNumber = editPhoneEditText.text.toString()
 
         if (newPhoneNumber.isEmpty()) {
-            Toast.makeText(context, "Phone number cannot be empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.s16), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -110,7 +110,7 @@ class ProfilePage : Fragment() {
         db.collection("users").document(currentUser.uid)
             .update("phone", newPhoneNumber)
             .addOnSuccessListener {
-                Toast.makeText(context, "Phone number updated successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.s17), Toast.LENGTH_SHORT).show()
 
                 // Update the TextView with the new phone number and hide the EditText
                 phoneTextView.text = newPhoneNumber
@@ -119,7 +119,7 @@ class ProfilePage : Fragment() {
                 saveButton.visibility = View.GONE
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Failed to update phone number", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.s18), Toast.LENGTH_SHORT).show()
             }
     }
 

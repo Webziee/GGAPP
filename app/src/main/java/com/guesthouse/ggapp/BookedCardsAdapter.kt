@@ -86,7 +86,7 @@ class BookedCardAdapter(
             } else {
                 // Show the cancel confirmation dialog
                 val dialog = AlertDialog.Builder(holder.itemView.context)
-                    .setTitle("Cancel Booking")
+                    .setTitle("")
                     .setMessage("Are you sure you want to cancel your booking?")
                     .setPositiveButton("Yes") { dialog, _ ->
                         // Call the cancellation logic only if the user clicks "Yes"
