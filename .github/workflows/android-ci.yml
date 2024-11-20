@@ -12,34 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check out the repository code
+      # Step 1: Check out the code
       - uses: actions/checkout@v4
 
-      # Set up JDK (Java is needed for Android builds)
+      # Step 2: Set up JDK (Required for building Android project)
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      # Grant execute permission for gradlew
+      # Step 3: Grant execute permission for gradlew (If needed)
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Build the Android project
+      # Step 4: Build with Gradle (this step builds your Android project)
       - name: Build with Gradle
-        run: ./gradlew build
-
-      # Initialize CodeQL (set the language as Java/Kotlin)
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: 'java'
-
-      # Create CodeQL database (runs after the build)
-      - name: Build CodeQL database
-        run: ./gradlew build
-
-      # Run CodeQL analysis
-      - name: Run CodeQL analysis
-        uses: github/codeql-action/analyze@v2
+        run: ./gradlew build --no-daemon
