@@ -1,3 +1,26 @@
+# CI/CD Pipeline, Code Quality & Security Testing
+In this section, we will highlight the tools and processes used to ensure the overall quality and security of the application. Through SonarCloud, we perform static code analysis to identify potential bugs, vulnerabilities, and areas for improvement, while Snyk Security Test helps us detect security risks in dependencies. Together, these tools provide a comprehensive approach to maintaining high-quality, secure code throughout the development lifecycle.
+
+## CI/CD Pipeline
+The following screenshots demonstrates the CI/CD pipeline in action, where code changes are automatically built, tested, and deployed through GitHub Actions successfully. The pipeline ensures that every commit and pull request is validated for quality and functionality before being deployed to production.
+![CD_CI_SS](https://github.com/user-attachments/assets/c0c25a24-26f6-4b3a-a6c7-b5931413261b)
+![sonar2_ss](https://github.com/user-attachments/assets/a8fd1d03-4a8c-4902-999e-b8e9b1012ab1)
+
+## Code Quality (Sonar Cloud)
+The following screenshots shows the integration of SonarCloud into the CI/CD pipeline, where the code is analyzed for quality, bugs, vulnerabilities, and code smells. SonarCloud provides a detailed report to ensure that the application meets high-quality standards throughout the development lifecycle.
+![sonar1_SS](https://github.com/user-attachments/assets/b94efe2e-b605-45fc-b1d6-bf1f7baa2be9)
+![sonar2_ss](https://github.com/user-attachments/assets/a8fd1d03-4a8c-4902-999e-b8e9b1012ab1)
+
+## Snyk Security Test
+The following screenshots display the results from the security test performed using Snyk, a tool designed to identify and mitigate vulnerabilities in application dependencies and code. The test was conducted to ensure the security and integrity of the project, and the results highlight any potential risks that could compromise the application.
+
+One specific issue identified was the presence of hardcoded secrets, which pose a security risk. This issue is being addressed by transitioning to environment variables and secure secrets management practices to enhance the security of the application.
+![snyk01](https://github.com/user-attachments/assets/5adb8fcc-20cd-4fd3-bb42-1da8207fbf07)
+![snyk02](https://github.com/user-attachments/assets/f3cf3866-d989-414b-a927-68624e765139)
+
+
+
+
 # REFERENCES 
 below are all the references for our code attribution:
 CodexCreator, 2023. Youtube, How to Load Images From URL Using Picasso in Android Studio. [Online] 
