@@ -39,7 +39,7 @@
     <string name="no">No</string>
 
 
-    <!--In App Text Displayed Strings-->
+    <!--In App Text Displayed Strings Added Instead of hardcoding messages-->
     <string name="s1">Payment details are valid.</string>
     <string name="s2">User email not found.</string>
     <string name="s3">No user is logged in.</string>
