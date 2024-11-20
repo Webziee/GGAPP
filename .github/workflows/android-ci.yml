@@ -11,12 +11,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
@@ -47,19 +44,32 @@ jobs:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
-      # Static Code Analysis with SonarCloud
+      # SonarCloud: Set up SonarCloud analysis
+      - name: SonarCloud Setup
+        uses: SonarSource/sonarcloud-github-action@v2.1
+        with:
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+
+      # Run SonarCloud Analysis
       - name: Run SonarCloud Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew sonarqube \
           -Dsonar.projectKey=your_project_key \
-          -Dsonar.organization=your_organization
+          -Dsonar.organization=your_organization \
+          -Dsonar.host.url=https://sonarcloud.io
 
-      # Security Testing with OWASP Dependency-Check
-      - name: Run OWASP Dependency-Check
-        uses: jeremydmiller/owasp-dependency-check-action@v1
+      # Upload SonarCloud report (optional)
+      - name: Upload SonarCloud Report
+        uses: actions/upload-artifact@v3
         with:
-          args: '--scan . --out . --format HTML'
+          name: sonar-report
+          path: sonar-report/
+
+      # Security Testing with OWASP Dependency-Check (Correct Action)
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/github-action@v3
+        with:
+          format: "HTML"
+          output-directory: "dependency-check-report"
 
       # Upload OWASP Dependency-Check Report (optional)
       - name: Upload Dependency-Check Report
@@ -67,3 +77,4 @@ jobs:
         with:
           name: dependency-check-report
           path: dependency-check-report/
+
