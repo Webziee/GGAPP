@@ -46,3 +46,25 @@ jobs:
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      # Static Code Analysis with SonarCloud
+      - name: Run SonarCloud Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonarqube \
+          -Dsonar.projectKey=your_project_key \
+          -Dsonar.organization=your_organization
+
+      # Security Testing with OWASP Dependency-Check
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/github-action@v3
+        with:
+          format: "HTML"
+          output-directory: "dependency-check-report"
+
+      # Upload OWASP Dependency-Check Report (optional)
+      - name: Upload Dependency-Check Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: dependency-check-report
+          path: dependency-check-report/
