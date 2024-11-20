@@ -19,7 +19,8 @@ One specific issue identified was the presence of hardcoded secrets, which pose 
 ![snyk02](https://github.com/user-attachments/assets/f3cf3866-d989-414b-a927-68624e765139)
 
 # GITHUB COMMIT EVIDENCE
-
+![image](https://github.com/user-attachments/assets/c66ca8d6-ea66-4541-9c25-7b36cd48fe73)
+![image](https://github.com/user-attachments/assets/05d3522a-57e1-454c-950f-031f31657078)
 
 
 
