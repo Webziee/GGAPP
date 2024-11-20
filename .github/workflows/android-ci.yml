@@ -44,6 +44,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew sonar \
-            -Dsonar.projectKey=Webziee_GGAPP \
+            -Dsonar.projectKey=9b353054c90a7414edc78cad067fa46b08e4fee3 \
             -Dsonar.organization=webziee \
             -Dsonar.host.url=https://sonarcloud.io
