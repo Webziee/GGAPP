@@ -11,9 +11,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  # This workflow contains a single job called "build"
   build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
@@ -44,37 +47,31 @@ jobs:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
-      # SonarCloud: Set up SonarCloud analysis
-      - name: SonarCloud Setup
-        uses: SonarSource/sonarcloud-github-action@v2.1
-        with:
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
-
-      # Run SonarCloud Analysis
+      # Static Code Analysis with SonarCloud
       - name: Run SonarCloud Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew sonarqube \
           -Dsonar.projectKey=your_project_key \
-          -Dsonar.organization=your_organization \
-          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.organization=your_organization
 
-      # Upload SonarCloud report (optional)
-      - name: Upload SonarCloud Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: sonar-report
-          path: sonar-report/
+      # Install OWASP Dependency-Check CLI
+      - name: Install OWASP Dependency-Check
+        run: |
+          wget https://github.com/jeremydmiller/owasp-dependency-check-action/releases/download/v6.3.0/dependency-check-6.3.0-release.zip
+          unzip dependency-check-6.3.0-release.zip
 
-      # Security Testing with OWASP Dependency-Check (Correct Action)
+      # Run OWASP Dependency-Check
       - name: Run OWASP Dependency-Check
-        uses: dependency-check/github-action@v3
-        with:
-          format: "HTML"
-          output-directory: "dependency-check-report"
+        run: |
+          ./dependency-check/bin/dependency-check.sh --project "your_project_name" \
+            --scan ./ \
+            --out ./dependency-check-report \
+            --format "HTML"
 
-      # Upload OWASP Dependency-Check Report (optional)
+      # Upload OWASP Dependency-Check Report
       - name: Upload Dependency-Check Report
         uses: actions/upload-artifact@v3
         with:
           name: dependency-check-report
-          path: dependency-check-report/
-
+          path: dependency-check-report/*
