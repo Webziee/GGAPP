@@ -3,7 +3,18 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.gms.google-services") version "4.4.2"
+    id ("org.sonarqube") version "4.3.0.3225"
 }
+
+sonarqube {
+    properties {
+        property ("sonar.projectKey", "your_project_key")
+        property ("sonar.organization", "your_organization_key") // for SonarCloud
+        property ("sonar.host.url", "https://sonarcloud.io") // or your SonarQube server URL
+        property ("sonar.login", "TOKEN") // Optional for SonarCloud
+    }
+}
+
 
 android {
     namespace = "com.guesthouse.ggapp"
@@ -50,6 +61,7 @@ android {
             excludes += "META-INF/NOTICE"
         }
     }
+
 }
 
 dependencies {
