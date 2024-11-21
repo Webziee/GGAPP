@@ -25,6 +25,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 
 class SignUp : AppCompatActivity() {
 
+    /*The following code integrated google SSO with Firebase, this code was inspired by the following videos
+    * EasyTutorial, 2024. Youtube, How to Integrate Google Sign In in Android | 2024. [Online]
+    Available at: https://www.youtube.com/watch?v=suVgcrPwYKQ
+    [Accessed 04 October 2024].
+    *
+    TechWorld, 2023. Youtubre, SIGN-IN WITH GOOGLE || FIREBASE || ANDROID STUDIO KOTLIN TUTORIAL || STEP BY STEP IMPLEMENTATION. [Online]
+    Available at: https://www.youtube.com/watch?v=H_maapn4Q3Q
+    [Accessed 05 October 2024].
+*/
+
     // UI elements
     private lateinit var signinlayout: LinearLayout
     private lateinit var signintext: TextView
@@ -47,6 +57,7 @@ class SignUp : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
+    // Google Sign-In: (EasyTutorial, 2024)
     // Google Sign-In
     private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
 
@@ -66,6 +77,7 @@ class SignUp : AppCompatActivity() {
         // Initialize UI
         initializeViews()
 
+        // Initialize Google Sign-In options (EasyTutorial, 2024)
         // Configure Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id)) // Update this to match your Web Client ID
@@ -247,6 +259,10 @@ class SignUp : AppCompatActivity() {
         signintext.visibility = View.GONE
     }
 
+    /*The following method was inspired by a youtube video, reference below
+    Lackner, P., 2024. Youtube, How to Implement Biometric Auth in Your Android App. [Online]
+    Available at: https://www.youtube.com/watch?v=_dCRQ9wta-I
+    [Accessed 12 October 2024].*/
     private fun isBiometricAvailable(): Boolean {
         val biometricManager = BiometricManager.from(this)
         return when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
@@ -263,6 +279,10 @@ class SignUp : AppCompatActivity() {
         }
     }
 
+    /*The following method was inspired by a youtube video, reference below
+   Lackner, P., 2024. Youtube, How to Implement Biometric Auth in Your Android App. [Online]
+   Available at: https://www.youtube.com/watch?v=_dCRQ9wta-I
+   [Accessed 12 October 2024].*/
     private fun setupBiometricPrompt() {
         if (!isBiometricAvailable()) return
 
