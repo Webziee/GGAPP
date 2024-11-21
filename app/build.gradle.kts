@@ -85,6 +85,7 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
+    implementation ("com.google.firebase:firebase-config:21.3.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

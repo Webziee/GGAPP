@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guesthouse.ggapp.R
 import com.guesthouse.ggapp.Selected_Card
-import com.guesthouse.ggapp.fullscreen
+import com.guesthouse.ggapp.Fullscreen
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -146,7 +146,7 @@ class ExplorePage : Fragment(), OnMapReadyCallback {
         // Set the adapter with a click listener
         recyclerView.adapter = ImageAdapter(imageUrls) { imageUrl ->
             // Launch a new activity or fragment with the selected image URL
-            val intent = Intent(requireContext(), fullscreen::class.java)
+            val intent = Intent(requireContext(), Fullscreen::class.java)
             intent.putExtra("imageUrl", imageUrl)
             startActivity(intent)
         }

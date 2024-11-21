@@ -81,4 +81,9 @@
     <string name="s35">Use Password</string>
 
     <string name="s36">Cancel Booking</string>
+    <string name="sign_in_canceled">Google Sign-In Cancelled</string>
+    <string name="sign_in_failed">Sign-In Failed</string>
+
+    <string name="default_web_client_id">341759497391-kfuas68ok5h7f7drgeq6qr9fqj6k07oe.apps.googleusercontent.com</string>
+
 </resources>

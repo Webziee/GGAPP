@@ -8,25 +8,27 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.squareup.picasso.Picasso
 
-class fullscreen : AppCompatActivity() {
+class Fullscreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge() // Ensure this is correctly implemented
         setContentView(R.layout.activity_fullscreen)
 
         val imageView = findViewById<ImageView>(R.id.fullScreenImageView)
         val imageUrl = intent.getStringExtra("imageUrl")
 
-        // Load the image using Picasso or another image loader, (CodexCreator, 2023).
-        if (imageUrl != null) {
-            Picasso.get().load(imageUrl).into(imageView)
-        }
+        // Load the image using Picasso with a placeholder or error handling
+        Picasso.get()
+            .load(imageUrl)
+            .placeholder(R.drawable.placeholderimage) // Optional placeholder image
+            .error(R.drawable.placeholderimage)       // Optional error image
+            .into(imageView)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        // Adjust for system bar insets
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
     }
 }

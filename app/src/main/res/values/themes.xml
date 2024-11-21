@@ -1,11 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.GGAPP" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/transparentColor</item> <!-- Toolbar background color -->
-        <item name="colorPrimaryDark">@color/transparentColor</item> <!-- Status bar color -->
+        <item name="colorPrimary">@color/transparentColor</item>
+        <item name="colorPrimaryDark">@color/transparentColor</item>
         <item name="colorSurface">@color/white</item> <!-- Background surfaces -->
         <item name="android:textColor">@color/black</item> <!-- Default text color -->
     </style>
 
     <style name="Theme.GGAPP" parent="Base.Theme.GGAPP" />
+
+
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
 </resources>

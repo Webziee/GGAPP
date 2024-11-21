@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "341759497391",
+    "firebase_url": "https://ggapp-c6110-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "ggapp-c6110",
     "storage_bucket": "ggapp-c6110.appspot.com"
   },
@@ -9,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:341759497391:android:6372cb4667e770c543b05a",
         "android_client_info": {
-          "package_name": "com.guesthouse.ggapp"
+          "package_name": "com.example.ggapp"
         }
       },
       "oauth_client": [
@@ -17,8 +18,53 @@
           "client_id": "341759497391-189hr9luj94c5mu02etruudiprsv4hl6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.guesthouse.ggapp",
+            "package_name": "com.example.ggapp",
             "certificate_hash": "a17d59682e12855d833a94f6404f121307e4f8fd"
+          }
+        },
+        {
+          "client_id": "341759497391-97hidrfalmiumdj4qb9q09jjjod8v3gr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ggapp",
+            "certificate_hash": "8bb8515be0fec34f8fb2d5d8bfa0cde888ac295a"
+          }
+        },
+        {
+          "client_id": "341759497391-g218jhjs5afmucgfqcg85odp90u5inrv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPURM-gVUa3cNS7zbZPtAoqPvXe1Buezs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341759497391-g218jhjs5afmucgfqcg85odp90u5inrv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341759497391:android:98604cadf41a9b7243b05a",
+        "android_client_info": {
+          "package_name": "com.guesthouse.ggapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341759497391-kfuas68ok5h7f7drgeq6qr9fqj6k07oe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guesthouse.ggapp",
+            "certificate_hash": "8bb8515be0fec34f8fb2d5d8bfa0cde888ac295a"
           }
         },
         {

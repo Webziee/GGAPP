@@ -15,25 +15,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import androidx.biometric.BiometricManager
-
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 
 class SignUp : AppCompatActivity() {
 
-    /*The following code integrated google SSO with Firebase, this code was inspired by the following videos
-    * EasyTutorial, 2024. Youtube, How to Integrate Google Sign In in Android | 2024. [Online]
-    Available at: https://www.youtube.com/watch?v=suVgcrPwYKQ
-    [Accessed 04 October 2024].
-    *
-    TechWorld, 2023. Youtubre, SIGN-IN WITH GOOGLE || FIREBASE || ANDROID STUDIO KOTLIN TUTORIAL || STEP BY STEP IMPLEMENTATION. [Online]
-    Available at: https://www.youtube.com/watch?v=H_maapn4Q3Q
-    [Accessed 05 October 2024].
-*/
-    // SignIn / SignUp UI elements
+    // UI elements
     private lateinit var signinlayout: LinearLayout
     private lateinit var signintext: TextView
     private lateinit var signinemail: TextInputEditText
@@ -49,14 +41,13 @@ class SignUp : AppCompatActivity() {
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
-
     private lateinit var progressBar: ProgressBar
     private lateinit var googleSignInButton: com.google.android.gms.common.SignInButton
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    // Google Sign-In: (EasyTutorial, 2024)
+    // Google Sign-In
     private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,41 +66,43 @@ class SignUp : AppCompatActivity() {
         // Initialize UI
         initializeViews()
 
-        // Initialize Google Sign-In options (EasyTutorial, 2024)
+        // Configure Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id)) // Ensure this matches your Firebase project
+            .requestIdToken(getString(R.string.default_web_client_id)) // Update this to match your Web Client ID
             .requestEmail()
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            progressBar.visibility = View.GONE
+            val data = result.data
+            if (result.resultCode == RESULT_OK && data != null) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 handleSignInResult(task)
             } else {
-                Toast.makeText(this, getString(R.string.s22), Toast.LENGTH_SHORT).show()
+                Log.w("GoogleSignIn", "Sign-in canceled or no data returned.")
+                Toast.makeText(this, "Sign-in was canceled. Please try again.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Sign-In and Sign-Up button listeners
+
+
+        // Set up button listeners
         signup_buttom.setOnClickListener { signUpUser() }
         signin_button.setOnClickListener { signInUser() }
         googleSignInButton.setOnClickListener { signInWithGoogle() }
 
-        // Handle switching between Log In and Sign Up layouts
+        // Switch between Sign In and Sign Up layouts
         signuptext.setOnClickListener { switchToSignUp() }
         signintext.setOnClickListener { switchToSignIn() }
     }
 
     override fun onStart() {
         super.onStart()
-
-        // Check if user is already signed in and navigate to the main page
         val currentUser = auth.currentUser
         if (currentUser != null) {
             Log.d("Authentication", "User is already signed in: ${currentUser.email}")
-            //Biometrics Logic Goes here so the user can login easily with their fingerprint
             setupBiometricPrompt()
         } else {
             Log.e("Authentication", "No user signed in")
@@ -134,7 +127,6 @@ class SignUp : AppCompatActivity() {
         progressBar = findViewById(R.id.progressbar)
     }
 
-    // Google Sign-In Functionality
     private fun signInWithGoogle() {
         val signInIntent = googleSignInClient.signInIntent
         progressBar.visibility = View.VISIBLE
@@ -142,34 +134,47 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
-        progressBar.visibility = View.GONE
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            firebaseAuthWithGoogle(account?.idToken)
+            if (account != null) {
+                firebaseAuthWithGoogle(account.idToken!!)
+            } else {
+                Toast.makeText(this, "Sign-in failed: Account not found.", Toast.LENGTH_SHORT).show()
+            }
         } catch (e: ApiException) {
-            Toast.makeText(this, getString(R.string.s23) +e.message, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun firebaseAuthWithGoogle(idToken: String?) {
-        if (idToken != null) {
-            progressBar.visibility = View.VISIBLE
-            val credential = GoogleAuthProvider.getCredential(idToken, null)
-            auth.signInWithCredential(credential)
-                .addOnCompleteListener(this) { task ->
-                    progressBar.visibility = View.GONE
-                    if (task.isSuccessful) {
-                        val userEmail = auth.currentUser?.email
-                        Log.d("GoogleSignIn", "User signed in with email: $userEmail")
-                        navigateToMainPage()
-                    } else {
-                        showToast(getString(R.string.s24) + task.exception?.message)
-                    }
+            Log.e("GoogleSignIn", "API Exception: ${e.statusCode}, ${e.localizedMessage}")
+            when (e.statusCode) {
+                GoogleSignInStatusCodes.SIGN_IN_CANCELLED -> {
+                    Toast.makeText(this, "Sign-in canceled.", Toast.LENGTH_SHORT).show()
                 }
+                GoogleSignInStatusCodes.NETWORK_ERROR -> {
+                    Toast.makeText(this, "Network error. Please try again.", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(this, "Sign-in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
-    // Sign Up with Email and Password
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        progressBar.visibility = View.VISIBLE
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                progressBar.visibility = View.GONE
+                if (task.isSuccessful) {
+                    val userEmail = auth.currentUser?.email
+                    Log.d("GoogleSignIn", "User signed in with email: $userEmail")
+                    navigateToMainPage()
+                } else {
+                    Log.e("FirebaseAuth", "Sign-in failed: ${task.exception?.message}")
+                    showToast("Sign-in failed: ${task.exception?.message}")
+                }
+            }
+    }
+
     private fun signUpUser() {
         val email = signupemail.text.toString().trim()
         val password = signuppassword.text.toString().trim()
@@ -181,18 +186,17 @@ class SignUp : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     progressBar.visibility = View.GONE
                     if (task.isSuccessful) {
-                        showToast(getString(R.string.s25))
+                        showToast("Sign-up successful.")
                         navigateToMainPage()
                     } else {
-                        showToast(getString(R.string.s26) + task.exception?.message)
+                        showToast("Sign-up failed: ${task.exception?.message}")
                     }
                 }
         } else {
-            showToast(getString(R.string.s27))
+            showToast("Please fill all fields correctly.")
         }
     }
 
-    // Sign In with Email and Password
     private fun signInUser() {
         val email = signinemail.text.toString().trim()
         val password = signinpassword.text.toString().trim()
@@ -207,11 +211,11 @@ class SignUp : AppCompatActivity() {
                         Log.d("SignIn", "User signed in with email: $userEmail")
                         navigateToMainPage()
                     } else {
-                        showToast(getString(R.string.s28) +task.exception?.message)
+                        showToast("Sign-in failed: ${task.exception?.message}")
                     }
                 }
         } else {
-            showToast(getString(R.string.s29))
+            showToast("Please fill all fields.")
         }
     }
 
@@ -243,31 +247,23 @@ class SignUp : AppCompatActivity() {
         signintext.visibility = View.GONE
     }
 
-    /*The following method was inspired by a youtube video, reference below
-    Lackner, P., 2024. Youtube, How to Implement Biometric Auth in Your Android App. [Online]
-    Available at: https://www.youtube.com/watch?v=_dCRQ9wta-I
-    [Accessed 12 October 2024].*/
     private fun isBiometricAvailable(): Boolean {
         val biometricManager = BiometricManager.from(this)
         return when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
             BiometricManager.BIOMETRIC_SUCCESS -> true
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                Toast.makeText(this, getString(R.string.s30), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No biometric hardware available.", Toast.LENGTH_SHORT).show()
                 false
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                Toast.makeText(this, getString(R.string.s31), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No biometrics enrolled.", Toast.LENGTH_SHORT).show()
                 false
             }
             else -> false
         }
     }
-    /*The following method was inspired by a youtube video, reference below
-    Lackner, P., 2024. Youtube, How to Implement Biometric Auth in Your Android App. [Online]
-    Available at: https://www.youtube.com/watch?v=_dCRQ9wta-I
-    [Accessed 12 October 2024].*/
-    private fun setupBiometricPrompt()
-    {
+
+    private fun setupBiometricPrompt() {
         if (!isBiometricAvailable()) return
 
         val executor = ContextCompat.getMainExecutor(this)
@@ -278,14 +274,14 @@ class SignUp : AppCompatActivity() {
             }
 
             override fun onAuthenticationFailed() {
-                Toast.makeText(this@SignUp, getString(R.string.s32), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SignUp, "Authentication failed.", Toast.LENGTH_SHORT).show()
             }
         })
 
         promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(getString(R.string.s33))
-            .setSubtitle(getString(R.string.s34))
-            .setNegativeButtonText(getString(R.string.s35))
+            .setTitle("Biometric Login")
+            .setSubtitle("Log in using your biometric credentials")
+            .setNegativeButtonText("Cancel")
             .build()
 
         biometricPrompt.authenticate(promptInfo)
