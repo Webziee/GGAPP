@@ -22,6 +22,9 @@ One specific issue identified was the presence of hardcoded secrets, which pose 
 ![image](https://github.com/user-attachments/assets/c66ca8d6-ea66-4541-9c25-7b36cd48fe73)
 ![image](https://github.com/user-attachments/assets/05d3522a-57e1-454c-950f-031f31657078)
 
+# Google Play Store Publication
+
+
 
 
 # REFERENCES 
